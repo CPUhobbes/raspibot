@@ -1,0 +1,19 @@
+.header_bg{
+    background-color: #2c3e50;
+}
+h1.headerText{
+    color: #ffffff;
+    text-align: center;
+}
+.articleContainer{
+	text-align: left;
+	border: 2px solid #2c3e50;
+	padding: 20px;
+}
+h2.panel-title{
+	font-size: 24px;
+
+}
+.vertical-center {
+   display: inline-block;
+}
