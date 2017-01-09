@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import SetTimeoutMixin from './timeoutMixins';
+import helpers from ".././utils/helpers";
 
 class Search extends React.Component {
 
@@ -35,7 +35,7 @@ class Search extends React.Component {
 
 
   componentDidMount (){
-  	this.imageTimer = setTimeout(()=>{this.setState({img_addr:'http://192.168.0.150:8080?' + new Date().getTime()})}, 3000);
+  	this.imageTimer = setTimeout(()=>{this.setState({img_addr:'http://192.168.0.150:8080?' + new Date().getTime()})}, 50);
   	document.addEventListener("keyup", this.onKeyUp, false);
   	document.addEventListener("keydown", this.onKeyDown, false);
   }
@@ -44,7 +44,7 @@ class Search extends React.Component {
   	//console.log("hit");
   	if(prevState.img_addr !== this.state.img_addr){
 
-  		this.imageTimer = setTimeout(()=>{this.setState({img_addr:'http://192.168.0.150:8080?' + new Date().getTime()})}, 3000);
+  		this.imageTimer = setTimeout(()=>{this.setState({img_addr:'http://192.168.0.150:8080?' + new Date().getTime()})}, 50);
   	}
   }
 
@@ -55,19 +55,23 @@ class Search extends React.Component {
   }
 
   onKeyDown(event){
-  	if(event.key ==="a" && this.state.keyStatus.left === false){
+  	if(event.key ==="a" && this.state.keyStatus.left === false  && this.state.keyStatus.gas === true){
   		this.state.keyStatus.left = true;
   		console.log(this.state.keyStatus.left);
+  		helpers.runQuery(2,30);
 
   	}
-  	else if(event.key ==="d" && this.state.keyStatus.right === false){
+  	else if(event.key ==="d" && this.state.keyStatus.right === false && this.state.keyStatus.gas === true){
   		this.state.keyStatus.right = true;
   		console.log(this.state.keyStatus.right);
+  		helpers.runQuery(1,30);
 
   	}
   	else if(event.key ==="w" && this.state.keyStatus.gas === false){
   		this.state.keyStatus.gas = true;
   		console.log(this.state.keyStatus.gas);
+  		helpers.runQuery(1,100);
+  		helpers.runQuery(2,100);
 
   	}
   	else if(event.key ==="s" && this.state.keyStatus.brake === false) {
@@ -80,19 +84,23 @@ class Search extends React.Component {
   }
 
   onKeyUp(event){
-  	if(event.key ==="a" && this.state.keyStatus.left === true){
+  	if(event.key ==="a" && this.state.keyStatus.left === true && this.state.keyStatus.gas === true){
   		this.state.keyStatus.left = false;
   		console.log(this.state.keyStatus.left);
+  		helpers.runQuery(2,100);
 
   	}
-  	else if(event.key ==="d" && this.state.keyStatus.right === true){
+  	else if(event.key ==="d" && this.state.keyStatus.right === true && this.state.keyStatus.gas === true){
   		this.state.keyStatus.right = false;
   		console.log(this.state.keyStatus.right);
+  		helpers.runQuery(1,100);
 
   	}
   	else if(event.key ==="w" && this.state.keyStatus.gas === true){
   		this.state.keyStatus.gas = false;
   		console.log(this.state.keyStatus.gas);
+  		helpers.runQuery(1,0);
+  		helpers.runQuery(2,0);
 
   	}
   	else if(event.key ==="s" && this.state.keyStatus.brake === true) {
