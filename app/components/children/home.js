@@ -26,10 +26,16 @@ class Saved extends React.Component {
 	render() {
 
 		return (
-				<div className="container">
-
-					<div className="jumbotron">
-						<h1>Home</h1>
+				<div>
+					<div className="container">
+						<div className="row">
+        					<div className="Absolute-Center is-Responsive">
+        						<div className="jumbotron">
+									<h1 className="text-center">Raspi-Bot</h1>
+									<h3 className="text-center">A web enabled video drone</h3> 
+								</div>
+        					</div>
+   						</div>
 					</div>
 				</div>
 		);

@@ -21749,7 +21749,7 @@
 					null,
 					_react2.default.createElement(
 						"nav",
-						{ className: "navbar navbar-default navbar-fixed-top" },
+						{ className: "navbar navbar-default navbar-static-top" },
 						_react2.default.createElement(
 							"div",
 							{ className: "container" },
@@ -21945,14 +21945,31 @@
 
 				return _react2.default.createElement(
 					"div",
-					{ className: "container" },
+					null,
 					_react2.default.createElement(
 						"div",
-						{ className: "jumbotron" },
+						{ className: "container" },
 						_react2.default.createElement(
-							"h1",
-							null,
-							"Home"
+							"div",
+							{ className: "row" },
+							_react2.default.createElement(
+								"div",
+								{ className: "Absolute-Center is-Responsive" },
+								_react2.default.createElement(
+									"div",
+									{ className: "jumbotron" },
+									_react2.default.createElement(
+										"h1",
+										{ className: "text-center" },
+										"Raspi-Bot"
+									),
+									_react2.default.createElement(
+										"h3",
+										{ className: "text-center" },
+										"A web enabled video drone"
+									)
+								)
+							)
 						)
 					)
 				);
@@ -21974,7 +21991,7 @@
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -21992,67 +22009,75 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var Search = function (_React$Component) {
-	  _inherits(Search, _React$Component);
+		_inherits(Search, _React$Component);
 
-	  function Search(props) {
-	    _classCallCheck(this, Search);
+		function Search(props) {
+			_classCallCheck(this, Search);
 
-	    var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
 
-	    _this.state = {
-	      searchTerm: "",
-	      startYear: "",
-	      endYear: "",
-	      numArticles: "5"
-	    };
+			_this.state = {
+				searchTerm: "",
+				startYear: "",
+				endYear: "",
+				numArticles: "5"
+			};
 
-	    _this.handleChange = _this.handleChange.bind(_this);
-	    _this.handleSubmit = _this.handleSubmit.bind(_this);
-	    return _this;
-	  }
+			_this.handleChange = _this.handleChange.bind(_this);
+			_this.handleSubmit = _this.handleSubmit.bind(_this);
+			return _this;
+		}
 
-	  _createClass(Search, [{
-	    key: "handleChange",
-	    value: function handleChange(event) {
-	      var newState = {};
-	      newState[event.target.id] = event.target.value;
-	      this.setState(newState);
-	    }
-	  }, {
-	    key: "handleSubmit",
-	    value: function handleSubmit(event) {
-	      event.preventDefault();
-	      console.log("CLICK");
-	      //console.log(this.state.searchTerm, this.state.numArticles);
-	      this.props.setAllTerm(this.state);
-	      this.setState({ searchTerm: "" });
-	      this.setState({ startYear: "" });
-	      this.setState({ endYear: "" });
-	    }
+		_createClass(Search, [{
+			key: "handleChange",
+			value: function handleChange(event) {
+				var newState = {};
+				newState[event.target.id] = event.target.value;
+				this.setState(newState);
+			}
+		}, {
+			key: "handleSubmit",
+			value: function handleSubmit(event) {
+				event.preventDefault();
+				console.log("CLICK");
+				//console.log(this.state.searchTerm, this.state.numArticles);
+				this.props.setAllTerm(this.state);
+				this.setState({ searchTerm: "" });
+				this.setState({ startYear: "" });
+				this.setState({ endYear: "" });
+			}
 
-	    // Create the render function for what gets displayed on page.
+			// Create the render function for what gets displayed on page.
 
-	  }, {
-	    key: "render",
-	    value: function render() {
+		}, {
+			key: "render",
+			value: function render() {
 
-	      return _react2.default.createElement(
-	        "div",
-	        { className: "container" },
-	        _react2.default.createElement(
-	          "div",
-	          { className: "jumbotron" },
-	          _react2.default.createElement(
-	            "h1",
-	            null,
-	            "About"
-	          )
-	        )
-	      );
-	    }
-	  }]);
+				return _react2.default.createElement(
+					"div",
+					{ className: "container" },
+					_react2.default.createElement(
+						"div",
+						{ className: "row" },
+						_react2.default.createElement(
+							"div",
+							{ className: "Absolute-Center is-Responsive" },
+							_react2.default.createElement(
+								"div",
+								{ className: "jumbotron" },
+								_react2.default.createElement(
+									"h1",
+									null,
+									"About"
+								)
+							)
+						)
+					)
+				);
+			}
+		}]);
 
-	  return Search;
+		return Search;
 	}(_react2.default.Component);
 	// Export the component back for use in other files
 
@@ -22066,7 +22091,7 @@
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -22084,67 +22109,75 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var Search = function (_React$Component) {
-	  _inherits(Search, _React$Component);
+		_inherits(Search, _React$Component);
 
-	  function Search(props) {
-	    _classCallCheck(this, Search);
+		function Search(props) {
+			_classCallCheck(this, Search);
 
-	    var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
 
-	    _this.state = {
-	      searchTerm: "",
-	      startYear: "",
-	      endYear: "",
-	      numArticles: "5"
-	    };
+			_this.state = {
+				searchTerm: "",
+				startYear: "",
+				endYear: "",
+				numArticles: "5"
+			};
 
-	    _this.handleChange = _this.handleChange.bind(_this);
-	    _this.handleSubmit = _this.handleSubmit.bind(_this);
-	    return _this;
-	  }
+			_this.handleChange = _this.handleChange.bind(_this);
+			_this.handleSubmit = _this.handleSubmit.bind(_this);
+			return _this;
+		}
 
-	  _createClass(Search, [{
-	    key: "handleChange",
-	    value: function handleChange(event) {
-	      var newState = {};
-	      newState[event.target.id] = event.target.value;
-	      this.setState(newState);
-	    }
-	  }, {
-	    key: "handleSubmit",
-	    value: function handleSubmit(event) {
-	      event.preventDefault();
-	      console.log("CLICK");
-	      //console.log(this.state.searchTerm, this.state.numArticles);
-	      this.props.setAllTerm(this.state);
-	      this.setState({ searchTerm: "" });
-	      this.setState({ startYear: "" });
-	      this.setState({ endYear: "" });
-	    }
+		_createClass(Search, [{
+			key: "handleChange",
+			value: function handleChange(event) {
+				var newState = {};
+				newState[event.target.id] = event.target.value;
+				this.setState(newState);
+			}
+		}, {
+			key: "handleSubmit",
+			value: function handleSubmit(event) {
+				event.preventDefault();
+				console.log("CLICK");
+				//console.log(this.state.searchTerm, this.state.numArticles);
+				this.props.setAllTerm(this.state);
+				this.setState({ searchTerm: "" });
+				this.setState({ startYear: "" });
+				this.setState({ endYear: "" });
+			}
 
-	    // Create the render function for what gets displayed on page.
+			// Create the render function for what gets displayed on page.
 
-	  }, {
-	    key: "render",
-	    value: function render() {
+		}, {
+			key: "render",
+			value: function render() {
 
-	      return _react2.default.createElement(
-	        "div",
-	        { className: "container" },
-	        _react2.default.createElement(
-	          "div",
-	          { className: "jumbotron" },
-	          _react2.default.createElement(
-	            "h1",
-	            null,
-	            "Contact"
-	          )
-	        )
-	      );
-	    }
-	  }]);
+				return _react2.default.createElement(
+					"div",
+					{ className: "container" },
+					_react2.default.createElement(
+						"div",
+						{ className: "row" },
+						_react2.default.createElement(
+							"div",
+							{ className: "Absolute-Center is-Responsive" },
+							_react2.default.createElement(
+								"div",
+								{ className: "jumbotron" },
+								_react2.default.createElement(
+									"h1",
+									null,
+									"Contact"
+								)
+							)
+						)
+					)
+				);
+			}
+		}]);
 
-	  return Search;
+		return Search;
 	}(_react2.default.Component);
 	// Export the component back for use in other files
 
@@ -22253,7 +22286,7 @@
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -22275,188 +22308,195 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var Search = function (_React$Component) {
-	  _inherits(Search, _React$Component);
+		_inherits(Search, _React$Component);
 
-	  function Search(props) {
-	    _classCallCheck(this, Search);
+		function Search(props) {
+			_classCallCheck(this, Search);
 
-	    var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
 
-	    _this.state = {
-	      img_addr: 'http://192.168.0.150:8080?' + new Date().getTime(),
-	      keyStatus: { left: false, right: false, gas: false, brake: false }
-	    };
+			_this.state = {
+				img_addr: 'http://192.168.0.150:8080?' + new Date().getTime(),
+				keyStatus: { left: false, right: false, gas: false, brake: false }
+			};
 
-	    _this.handleChange = _this.handleChange.bind(_this);
-	    _this.onKeyUp = _this.onKeyUp.bind(_this);
-	    _this.onKeyDown = _this.onKeyDown.bind(_this);
+			_this.handleChange = _this.handleChange.bind(_this);
+			_this.onKeyUp = _this.onKeyUp.bind(_this);
+			_this.onKeyDown = _this.onKeyDown.bind(_this);
 
-	    return _this;
-	  }
+			return _this;
+		}
 
-	  _createClass(Search, [{
-	    key: "handleChange",
-	    value: function handleChange(event) {
-	      var newState = {};
-	      newState[event.target.id] = event.target.value;
-	      this.setState(newState);
-	    }
-	  }, {
-	    key: "handleSubmit",
-	    value: function handleSubmit(event) {
-	      event.preventDefault();
-	      console.log("CLICK");
-	      //console.log(this.state.searchTerm, this.state.numArticles);
-	      this.props.setLoginName({ name: "Testing" });
-	    }
-	  }, {
-	    key: "componentDidMount",
-	    value: function componentDidMount() {
-	      var _this2 = this;
+		_createClass(Search, [{
+			key: "handleChange",
+			value: function handleChange(event) {
+				var newState = {};
+				newState[event.target.id] = event.target.value;
+				this.setState(newState);
+			}
+		}, {
+			key: "handleSubmit",
+			value: function handleSubmit(event) {
+				event.preventDefault();
+				console.log("CLICK");
+				//console.log(this.state.searchTerm, this.state.numArticles);
+				this.props.setLoginName({ name: "Testing" });
+			}
+		}, {
+			key: "componentDidMount",
+			value: function componentDidMount() {
+				var _this2 = this;
 
-	      this.imageTimer = setTimeout(function () {
-	        _this2.setState({ img_addr: 'http://192.168.0.150:8080?' + new Date().getTime() });
-	      }, 50);
-	      document.addEventListener("keyup", this.onKeyUp, false);
-	      document.addEventListener("keydown", this.onKeyDown, false);
-	    }
-	  }, {
-	    key: "componentDidUpdate",
-	    value: function componentDidUpdate(prevProps, prevState) {
-	      var _this3 = this;
+				this.imageTimer = setTimeout(function () {
+					_this2.setState({ img_addr: 'http://192.168.0.150:8080?' + new Date().getTime() });
+				}, 50);
+				document.addEventListener("keyup", this.onKeyUp, false);
+				document.addEventListener("keydown", this.onKeyDown, false);
+			}
+		}, {
+			key: "componentDidUpdate",
+			value: function componentDidUpdate(prevProps, prevState) {
+				var _this3 = this;
 
-	      //console.log("hit");
-	      if (prevState.img_addr !== this.state.img_addr) {
+				//console.log("hit");
+				if (prevState.img_addr !== this.state.img_addr) {
 
-	        this.imageTimer = setTimeout(function () {
-	          _this3.setState({ img_addr: 'http://192.168.0.150:8080?' + new Date().getTime() });
-	        }, 50);
-	      }
-	    }
-	  }, {
-	    key: "componentWillUnmount",
-	    value: function componentWillUnmount() {
-	      clearTimeout(this.imageTimer);
-	      document.removeEventListener("keyup", this.onKeyUp, false);
-	      document.removeEventListener("keydown", this.onKeyDown, false);
-	    }
-	  }, {
-	    key: "onKeyDown",
-	    value: function onKeyDown(event) {
-	      if (event.key === "a" && this.state.keyStatus.left === false && this.state.keyStatus.gas === true) {
-	        this.state.keyStatus.left = true;
-	        console.log(this.state.keyStatus.left);
-	        _helpers2.default.runQuery(2, 30);
-	      } else if (event.key === "d" && this.state.keyStatus.right === false && this.state.keyStatus.gas === true) {
-	        this.state.keyStatus.right = true;
-	        console.log(this.state.keyStatus.right);
-	        _helpers2.default.runQuery(1, 30);
-	      } else if (event.key === "w" && this.state.keyStatus.gas === false) {
-	        this.state.keyStatus.gas = true;
-	        console.log(this.state.keyStatus.gas);
-	        _helpers2.default.runQuery(1, 100);
-	        _helpers2.default.runQuery(2, 100);
-	      } else if (event.key === "s" && this.state.keyStatus.brake === false) {
-	        this.state.keyStatus.brake = true;
-	        console.log(this.state.keyStatus.brake);
-	      }
-	    }
-	  }, {
-	    key: "onKeyUp",
-	    value: function onKeyUp(event) {
-	      if (event.key === "a" && this.state.keyStatus.left === true && this.state.keyStatus.gas === true) {
-	        this.state.keyStatus.left = false;
-	        console.log(this.state.keyStatus.left);
-	        _helpers2.default.runQuery(2, 100);
-	      } else if (event.key === "d" && this.state.keyStatus.right === true && this.state.keyStatus.gas === true) {
-	        this.state.keyStatus.right = false;
-	        console.log(this.state.keyStatus.right);
-	        _helpers2.default.runQuery(1, 100);
-	      } else if (event.key === "w" && this.state.keyStatus.gas === true) {
-	        this.state.keyStatus.gas = false;
-	        console.log(this.state.keyStatus.gas);
-	        _helpers2.default.runQuery(1, 0);
-	        _helpers2.default.runQuery(2, 0);
-	      } else if (event.key === "s" && this.state.keyStatus.brake === true) {
-	        this.state.keyStatus.brake = false;
-	        console.log(this.state.keyStatus.brake);
-	      }
-	    }
+					this.imageTimer = setTimeout(function () {
+						_this3.setState({ img_addr: 'http://192.168.0.150:8080?' + new Date().getTime() });
+					}, 50);
+				}
+			}
+		}, {
+			key: "componentWillUnmount",
+			value: function componentWillUnmount() {
+				clearTimeout(this.imageTimer);
+				document.removeEventListener("keyup", this.onKeyUp, false);
+				document.removeEventListener("keydown", this.onKeyDown, false);
+			}
 
-	    //  <form onSubmit={this.handleSubmit}>
-	    //             <button type="submit" className="btn btn-default" id="runSearch">Search</button>
-	    //             </form>
+			//helpers.runQuery(motorNum, speed, direction)
+
+		}, {
+			key: "onKeyDown",
+			value: function onKeyDown(event) {
+				if (event.key === "a" && this.state.keyStatus.left === false && this.state.keyStatus.gas === true) {
+					this.state.keyStatus.left = true;
+					console.log(this.state.keyStatus.left);
+					_helpers2.default.runQuery(1, 0, 1);
+				} else if (event.key === "d" && this.state.keyStatus.right === false && this.state.keyStatus.gas === true) {
+					this.state.keyStatus.right = true;
+					console.log(this.state.keyStatus.right);
+					_helpers2.default.runQuery(2, 0, 1);
+				} else if (event.key === "w" && this.state.keyStatus.gas === false) {
+					this.state.keyStatus.gas = true;
+					console.log(this.state.keyStatus.gas);
+					_helpers2.default.runQuery(1, 100, 1);
+					_helpers2.default.runQuery(2, 100, 1);
+				} else if (event.key === "s" && this.state.keyStatus.brake === false) {
+					this.state.keyStatus.brake = true;
+					console.log(this.state.keyStatus.brake);
+					_helpers2.default.runQuery(1, 100, -1);
+					_helpers2.default.runQuery(2, 100, -1);
+				}
+			}
+		}, {
+			key: "onKeyUp",
+			value: function onKeyUp(event) {
+				if (event.key === "a" && this.state.keyStatus.left === true && this.state.keyStatus.gas === true) {
+					this.state.keyStatus.left = false;
+					console.log(this.state.keyStatus.left);
+					_helpers2.default.runQuery(1, 100, 1);
+				} else if (event.key === "d" && this.state.keyStatus.right === true && this.state.keyStatus.gas === true) {
+					this.state.keyStatus.right = false;
+					console.log(this.state.keyStatus.right);
+					_helpers2.default.runQuery(2, 100, 1);
+				} else if (event.key === "w" && this.state.keyStatus.gas === true) {
+					this.state.keyStatus.gas = false;
+					console.log(this.state.keyStatus.gas);
+					_helpers2.default.runQuery(1, 0, 1);
+					_helpers2.default.runQuery(2, 0, 1);
+				} else if (event.key === "s" && this.state.keyStatus.brake === true) {
+					this.state.keyStatus.brake = false;
+					console.log(this.state.keyStatus.brake);
+					_helpers2.default.runQuery(1, 0, -1);
+					_helpers2.default.runQuery(2, 0, -1);
+				}
+			}
+
+			//  <form onSubmit={this.handleSubmit}>
+			//             <button type="submit" className="btn btn-default" id="runSearch">Search</button>
+			//             </form>
 
 
-	    // Create the render function for what gets displayed on page.
+			// Create the render function for what gets displayed on page.
 
-	  }, {
-	    key: "render",
-	    value: function render() {
+		}, {
+			key: "render",
+			value: function render() {
 
-	      return _react2.default.createElement(
-	        "div",
-	        null,
-	        _react2.default.createElement(
-	          "div",
-	          { className: "jumbotron" },
-	          _react2.default.createElement(
-	            "div",
-	            { className: "row" },
-	            _react2.default.createElement(
-	              "div",
-	              { className: "col-md-12" },
-	              _react2.default.createElement(
-	                "h1",
-	                null,
-	                "Welcome ",
-	                this.props.params.userID
-	              )
-	            )
-	          ),
-	          _react2.default.createElement(
-	            "div",
-	            { className: "row" },
-	            _react2.default.createElement(
-	              "div",
-	              { className: "col-md-2" },
-	              _react2.default.createElement(
-	                "button",
-	                { type: "submit", className: "btn btn-primary btn-lg", id: "left" },
-	                '<<<'
-	              ),
-	              _react2.default.createElement(
-	                "button",
-	                { type: "submit", className: "btn btn-primary btn-lg", id: "left" },
-	                '>>>'
-	              )
-	            ),
-	            _react2.default.createElement(
-	              "div",
-	              { className: "col-md-8" },
-	              _react2.default.createElement("img", { id: "camera", width: "500px", height: "500px", "data-ip": "192.168.0.150:8080", src: this.state.img_addr })
-	            ),
-	            _react2.default.createElement(
-	              "div",
-	              { className: "col-md-2" },
-	              _react2.default.createElement(
-	                "button",
-	                { type: "submit", className: "btn btn-success btn-lg", id: "left" },
-	                'GAS'
-	              ),
-	              _react2.default.createElement(
-	                "button",
-	                { type: "submit", className: "btn btn-danger btn-lg", id: "left" },
-	                'BRK'
-	              )
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
+				return _react2.default.createElement(
+					"div",
+					null,
+					_react2.default.createElement(
+						"div",
+						{ className: "jumbotron" },
+						_react2.default.createElement(
+							"div",
+							{ className: "row" },
+							_react2.default.createElement(
+								"div",
+								{ className: "col-md-12" },
+								_react2.default.createElement(
+									"h1",
+									null,
+									"Welcome ",
+									this.props.params.userID
+								)
+							)
+						),
+						_react2.default.createElement(
+							"div",
+							{ className: "row" },
+							_react2.default.createElement(
+								"div",
+								{ className: "col-md-2" },
+								_react2.default.createElement(
+									"button",
+									{ type: "submit", className: "btn btn-primary btn-lg", id: "left" },
+									'<<<'
+								),
+								_react2.default.createElement(
+									"button",
+									{ type: "submit", className: "btn btn-primary btn-lg", id: "left" },
+									'>>>'
+								)
+							),
+							_react2.default.createElement(
+								"div",
+								{ className: "col-md-8" },
+								_react2.default.createElement("img", { id: "camera", className: "flip_video", width: "500px", height: "500px", "data-ip": "192.168.0.150:8080", src: this.state.img_addr })
+							),
+							_react2.default.createElement(
+								"div",
+								{ className: "col-md-2" },
+								_react2.default.createElement(
+									"button",
+									{ type: "submit", className: "btn btn-success btn-lg", id: "left" },
+									'GAS'
+								),
+								_react2.default.createElement(
+									"button",
+									{ type: "submit", className: "btn btn-danger btn-lg", id: "left" },
+									'BRK'
+								)
+							)
+						)
+					)
+				);
+			}
+		}]);
 
-	  return Search;
+		return Search;
 	}(_react2.default.Component);
 	// Export the component back for use in other files
 
@@ -27389,7 +27429,7 @@
 	// Helper Functions (in this case the only one is runQuery)
 	var helpers = {
 
-	  runQuery: function runQuery(motorNum, speed) {
+	  runQuery: function runQuery(motorNum, speed, direction) {
 
 	    //const queryURL = "http://192.168.0.150:8080?motorNum=" + motorNum + "&speed="+speed;
 
@@ -27398,7 +27438,8 @@
 	      url: 'http://192.168.0.150:8080',
 	      data: {
 	        motorNum: motorNum,
-	        speed: speed
+	        speed: speed,
+	        direction: direction
 	      },
 	      method: 'post'
 

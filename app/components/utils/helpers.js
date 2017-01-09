@@ -4,7 +4,7 @@ import axios from "axios";
 // Helper Functions (in this case the only one is runQuery)
 const helpers = {
 
-  runQuery: (motorNum, speed) => {
+  runQuery: (motorNum, speed, direction) => {
   	
 
     //const queryURL = "http://192.168.0.150:8080?motorNum=" + motorNum + "&speed="+speed;
@@ -14,7 +14,8 @@ const helpers = {
       url:'http://192.168.0.150:8080',
       data:{
         motorNum:motorNum,
-        speed:speed
+        speed:speed,
+        direction: direction
       },
       method: 'post',      
 

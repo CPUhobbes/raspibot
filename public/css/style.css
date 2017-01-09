@@ -1,19 +1,68 @@
-.header_bg{
-    background-color: #2c3e50;
-}
-h1.headerText{
-    color: #ffffff;
-    text-align: center;
-}
-.articleContainer{
-	text-align: left;
-	border: 2px solid #2c3e50;
-	padding: 20px;
-}
-h2.panel-title{
-	font-size: 24px;
+body{
+	background-image: url("../img/bg.jpg");
+	background-color: #000000;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-attachment: fixed;
+
 
 }
-.vertical-center {
-   display: inline-block;
+
+.flip_video{
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+color: #000;  /*Sets the text hover color on navbar*/
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active >   
+ a:hover, .navbar-default .navbar-nav > .active > a:focus {
+color: white; /*BACKGROUND color for active*/
+background-color: #030033;
+}
+
+  .navbar-default {
+    background-color: rgba(0,0,10,1);
+    
+}
+
+  .dropdown-menu > li > a:hover,
+   .dropdown-menu > li > a:focus {
+    color: #2626ff;
+   text-decoration: none;
+  background-color: #66CC00;  /*change color of links in drop down here*/
+   }
+
+ .nav > li > a:hover,
+ .nav > li > a:focus {
+    text-decoration: none;
+    background-color: silver; /*Change rollover cell color here*/
+  }
+
+
+  .navbar-default .navbar-nav > li > a {
+   color: white; /*Change active text color here*/
+    }
+
+.Absolute-Center {
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.Absolute-Center.is-Responsive {
+  width: 50%; 
+  height: 50%;
+  min-width: 200px;
+  max-width: 600px;
+  
+}
+
+.jumbotron{
+	background-color: rgba(255,255,255,.8);
 }
