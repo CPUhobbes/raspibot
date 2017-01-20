@@ -16,38 +16,45 @@ body{
     transform: rotate(180deg);
 }
 
-.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-color: #000;  /*Sets the text hover color on navbar*/
+#main-nav.navbar-default .navbar-brand {
+    color: rgba(252, 252, 252, 1);
 }
-
-.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active >   
- a:hover, .navbar-default .navbar-nav > .active > a:focus {
-color: white; /*BACKGROUND color for active*/
-background-color: #030033;
-}
-
-  .navbar-default {
-    background-color: rgba(0,0,10,1);
+#main-nav.navbar-default {
+    font-size: 20px;
+    background-color: rgba(3, 0, 51, 1);
+    border: 0;
     
 }
+#main-nav.navbar-default .navbar-nav>li>a {
+    color: rgba(255, 255, 255, 1);
+    background-color: rgba(248, 248, 248, 0);
+}
+#main-nav.navbar-default .navbar-nav>li>a:hover,
+#main-nav.navbar-default .navbar-nav>li>a:focus {
+    color: rgba(51, 51, 51, 1);
+    background-color: rgba(255, 255, 255, 1);
+}
+#main-nav.navbar-default .navbar-nav>.active>a,
+#main-nav.navbar-default .navbar-nav>.active>a:hover,
+#main-nav.navbar-default .navbar-nav>.active>a:focus {
+    color: rgba(15, 196, 15, 1);
+    background-color: rgba(38, 38, 51, 1);
+}
+#main-nav.navbar-default .navbar-toggle {
+    border-color: #262633;
+}
+#main-nav.navbar-default .navbar-toggle:hover,
+#main-nav.navbar-default .navbar-toggle:focus {
+    background-color: #262633;
+}
+#main-nav.navbar-default .navbar-toggle .icon-bar {
+    background-color: #262633;
+}
+#main-nav.navbar-default .navbar-toggle:hover .icon-bar,
+#main-nav.navbar-default .navbar-toggle:focus .icon-bar {
+    background-color: #030033;
+}
 
-  .dropdown-menu > li > a:hover,
-   .dropdown-menu > li > a:focus {
-    color: #2626ff;
-   text-decoration: none;
-  background-color: #66CC00;  /*change color of links in drop down here*/
-   }
-
- .nav > li > a:hover,
- .nav > li > a:focus {
-    text-decoration: none;
-    background-color: silver; /*Change rollover cell color here*/
-  }
-
-
-  .navbar-default .navbar-nav > li > a {
-   color: white; /*Change active text color here*/
-    }
 
 .Absolute-Center {
   margin: auto;

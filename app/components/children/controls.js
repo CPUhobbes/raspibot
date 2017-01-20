@@ -3,6 +3,7 @@
 import React from "react";
 
 import helpers from ".././utils/helpers";
+import axios from 'axios';
 
 class Search extends React.Component {
 
@@ -10,14 +11,16 @@ class Search extends React.Component {
 		super(props);
 
 		this.state = {
-			img_addr:'http://192.168.0.150:8080?' + new Date().getTime(),
-			keyStatus:{left: false, right:false, gas:false, brake:false}
+			img_addr:'',
+			keyStatus:{left: false, right:false, gas:false, brake:false},
+			ip_Addr:'',
+			port:":8080" //Port of python server on Raspberry Pi
+
 		};
 
 		this.handleChange = this.handleChange.bind(this);
 		this.onKeyUp = this.onKeyUp.bind(this);
 		this.onKeyDown = this.onKeyDown.bind(this);
-
 	}
 
 	handleChange(event) {
@@ -33,19 +36,37 @@ class Search extends React.Component {
 		this.props.setLoginName({name:"Testing"});
 	}
 
+	componentWillMount(){
+
+		//Axios is promise based, cannot update img_addr using helper class 
+		let queryString = '/api/getBotID/?serial='+this.props.params.botID;
+		return axios.get(queryString).then((response) => {
+			if(response.data !== null){
+				this.setState({ip_Addr:response.data.ip});
+				this.setState({img_addr:'http://'+response.data.ip+this.state.port+'?' + new Date().getTime()});
+			}
+		});
+
+  		
+
+	}
+
 
 	componentDidMount (){
-	  	this.imageTimer = setTimeout(()=>{this.setState({img_addr:'http://192.168.0.150:8080?' + new Date().getTime()})}, 50);
+		this.imageTimer = setTimeout(()=>{this.setState({img_addr:'http://'+this.state.ip_Addr+this.state.port+'?' + new Date().getTime()})}, 75);
 	  	document.addEventListener("keyup", this.onKeyUp, false);
 	  	document.addEventListener("keydown", this.onKeyDown, false);
+	  	
 	}
 
 	componentDidUpdate(prevProps, prevState){
 	  	//console.log("hit");
 	  	if(prevState.img_addr !== this.state.img_addr){
 
-	  		this.imageTimer = setTimeout(()=>{this.setState({img_addr:'http://192.168.0.150:8080?' + new Date().getTime()})}, 50);
+	  		this.imageTimer = setTimeout(()=>{this.setState({img_addr:'http://'+this.state.ip_Addr+this.state.port+'?' + new Date().getTime()})}, 75);
 	  	}
+
+	  	
 	}
 
   	componentWillUnmount(){
@@ -54,74 +75,91 @@ class Search extends React.Component {
   		document.removeEventListener("keydown", this.onKeyDown, false);
   	}
 
-  	//helpers.runQuery(motorNum, speed, direction)
+  	//helpers.moveRobot(motorNum, speed, direction)
   	onKeyDown(event){
-	  	if(event.key ==="a" && this.state.keyStatus.left === false  && this.state.keyStatus.gas === true){
-	  		this.state.keyStatus.left = true;
-	  		console.log(this.state.keyStatus.left);
-	  		helpers.runQuery(1,0,1);
+  		if(this.state.ip_Addr!==''){
 
-	  	}
-	  	else if(event.key ==="d" && this.state.keyStatus.right === false && this.state.keyStatus.gas === true){
-	  		this.state.keyStatus.right = true;
-	  		console.log(this.state.keyStatus.right);
-	  		helpers.runQuery(2,0,1);
+  			console.log("Left: "+this.state.keyStatus.left+" Right: "+this.state.keyStatus.right+" Gas: "+ this.state.keyStatus.gas+" Brake: "+this.state.keyStatus.brake)
+		  	
+		  	if(event.key === "a" && this.state.keyStatus.gas === true  && this.state.keyStatus.right === false && this.state.keyStatus.brake === false ){
+		  		this.state.keyStatus.left = true;
+		  		
+		  		helpers.moveRobot(0,100,1, (this.state.ip_Addr+this.state.port));
 
-	  	}
-	  	else if(event.key ==="w" && this.state.keyStatus.gas === false){
-	  		this.state.keyStatus.gas = true;
-	  		console.log(this.state.keyStatus.gas);
-	  		helpers.runQuery(1,100,1);
-	  		helpers.runQuery(2,100,1);
+		  	}
+		  	else if(event.key ==="d" && this.state.keyStatus.gas === true  && this.state.keyStatus.left === false && this.state.keyStatus.brake === false){
+		  		this.state.keyStatus.right = true;
 
-	  	}
-	  	else if(event.key ==="s" && this.state.keyStatus.brake === false) {
-	  		this.state.keyStatus.brake = true;
-	  		console.log(this.state.keyStatus.brake);
-	  		helpers.runQuery(1,100,-1);
-	  		helpers.runQuery(2,100,-1);
+		  		helpers.moveRobot(100,0,1, (this.state.ip_Addr+this.state.port));
 
-	  	}
-  	
+		  	}
+		  	else if(event.key ==="a" && this.state.keyStatus.brake === true && this.state.keyStatus.right === false  && this.state.keyStatus.gas === false ){
+		  		this.state.keyStatus.left = true;
+		  		this.state.keyStatus.brake = true;
+		  		this.state.keyStatus.gas = false;
 
+		  		helpers.moveRobot(0,100,-1, (this.state.ip_Addr+this.state.port));
+
+		  	}
+		  	else if(event.key ==="d" && this.state.keyStatus.brake === true && this.state.keyStatus.left === false && this.state.keyStatus.gas === false ){
+		  		this.state.keyStatus.right = true;
+		  		this.state.keyStatus.brake = true;
+		  		this.state.keyStatus.gas = false;
+
+		  		helpers.moveRobot(100,0,-1, (this.state.ip_Addr+this.state.port));
+
+		  	}
+		  	else if(event.key ==="w" && this.state.keyStatus.brake === false){
+		  		this.state.keyStatus.gas = true;
+
+		  		helpers.moveRobot(100,100,1, (this.state.ip_Addr+this.state.port));
+
+		  	}
+		  	else if(event.key ==="s" && this.state.keyStatus.gas === false) {
+		  		this.state.keyStatus.brake = true;
+
+		  		helpers.moveRobot(100,100,-1, (this.state.ip_Addr+this.state.port));
+		  		
+		  	}
+		}
   	}
 
   onKeyUp(event){
-  	if(event.key ==="a" && this.state.keyStatus.left === true && this.state.keyStatus.gas === true){
-  		this.state.keyStatus.left = false;
-  		console.log(this.state.keyStatus.left);
-  		helpers.runQuery(1,100, 1);
+  	if(this.state.ip_Addr!==''){
+	  	if(event.key ==="a" && this.state.keyStatus.left === true && this.state.keyStatus.gas === true && this.state.keyStatus.brake === false){
+	  		this.state.keyStatus.left = false;
+	  		helpers.moveRobot(100,100, 1, (this.state.ip_Addr+this.state.port));
 
-  	}
-  	else if(event.key ==="d" && this.state.keyStatus.right === true && this.state.keyStatus.gas === true){
-  		this.state.keyStatus.right = false;
-  		console.log(this.state.keyStatus.right);
-  		helpers.runQuery(2,100, 1);
+	  	}
+	  	else if(event.key ==="d" && this.state.keyStatus.right === true && this.state.keyStatus.gas === true && this.state.keyStatus.brake === false){
+	  		this.state.keyStatus.right = false;
+	  		helpers.moveRobot(100,100, 1, (this.state.ip_Addr+this.state.port));
 
-  	}
-  	else if(event.key ==="w" && this.state.keyStatus.gas === true){
-  		this.state.keyStatus.gas = false;
-  		console.log(this.state.keyStatus.gas);
-  		helpers.runQuery(1,0, 1);
-  		helpers.runQuery(2,0, 1);
+	  	}
+	  	if(event.key ==="a" && this.state.keyStatus.left === true && this.state.keyStatus.brake === true && this.state.keyStatus.gas === false){
+	  		this.state.keyStatus.left = false;
+	  		helpers.moveRobot(100,100, -1, (this.state.ip_Addr+this.state.port));
 
-  	}
-  	else if(event.key ==="s" && this.state.keyStatus.brake === true) {
-  		this.state.keyStatus.brake = false;
-  		console.log(this.state.keyStatus.brake);
-  		helpers.runQuery(1,0,-1);
-	  	helpers.runQuery(2,0,-1);
+	  	}
+	  	else if(event.key ==="d" && this.state.keyStatus.right === true && this.state.keyStatus.brake === true && this.state.keyStatus.gas === false){
+	  		this.state.keyStatus.right = false;
+	  		helpers.moveRobot(100,100, -1, (this.state.ip_Addr+this.state.port));
 
-  	}
+	  	}
+	  	else if(event.key ==="w" && this.state.keyStatus.gas === true){
+	  		this.state.keyStatus.gas = false;
+	  		helpers.moveRobot(0,0, 1, (this.state.ip_Addr+this.state.port));
+
+	  	}
+	  	else if(event.key ==="s" && this.state.keyStatus.brake === true) {
+	  		this.state.keyStatus.brake = false;
+	  		helpers.moveRobot(0,0,-1, (this.state.ip_Addr+this.state.port));
+		  	
+
+	  	}
+	}
 
   }
-
-//  <form onSubmit={this.handleSubmit}>
-//             <button type="submit" className="btn btn-default" id="runSearch">Search</button>
-//             </form>
-
-	
-
 
 	// Create the render function for what gets displayed on page.
 	render() {
@@ -133,23 +171,23 @@ class Search extends React.Component {
 					<div className="jumbotron">
 					<div className="row">
 			  			<div className="col-md-12">
-							<h1>Welcome {this.props.params.userID}</h1>
+							<h1>Welcome {this.props.params.userID}, {this.state.ip_Addr}</h1>
 						</div>
 					</div>
 			  			
 			  			<div className="row">
 			  				<div className="col-md-2">
 			  					
-            					<button type="submit" className="btn btn-primary btn-lg" id="left">{'<<<'}</button>
-            					<button type="submit" className="btn btn-primary btn-lg" id="left">{'>>>'}</button>
+            					<button onMouseDown={(e)=>{this.onKeyDown({key:'a'})} } onMouseUp={(e)=>{this.onKeyUp({key:'a'})} } className="btn btn-primary btn-lg" id="left">{'<<<'}</button>
+            					<button onMouseDown={(e)=>{this.onKeyDown({key:'d'})} } onMouseUp={(e)=>{this.onKeyUp({key:'d'})} } className="btn btn-primary btn-lg" id="right">{'>>>'}</button>
             				</div>
             				<div className="col-md-8">
 			  					<img id="camera" className="flip_video" width="500px" height="500px" data-ip="192.168.0.150:8080" src={this.state.img_addr} />
 							</div>
 							<div className="col-md-2">
 			  					
-            					<button type="submit" className="btn btn-success btn-lg" id="left">{'GAS'}</button>
-            					<button type="submit" className="btn btn-danger btn-lg" id="left">{'BRK'}</button>
+            					<button onMouseDown={(e)=>{this.onKeyDown({key:'w'})} } onMouseUp={(e)=>{this.onKeyUp({key:'w'})} } className="btn btn-success btn-lg" id="gas">GAS</button>
+            					<button onMouseDown={(e)=>{this.onKeyDown({key:'s'})} } onMouseUp={(e)=>{this.onKeyUp({key:'s'})} } className="btn btn-danger btn-lg" id="brk">BRK</button>
             				</div>
 
 

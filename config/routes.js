@@ -2,7 +2,7 @@
 
 const express = require('express'),
     index = require('../controllers/indexController'),
-    api = require('../controllers/apiController'),
+    robots = require('../controllers/robotsController'),
     router = express.Router();
 /*
  * --- Index Route ---
@@ -14,13 +14,7 @@ router.get('/', index.loadIndex);
  */
 
 //Get all articles
-router.get('/api/saved',api.getArticles);
-
-//Save an article
-router.post('/api/saved',api.saveArticles);
-
-//Delete an article
-router.delete('/api/saved',api.deleteArticles);
+router.get('/api/getBotID',robots.getRobotIP);
 
 
 module.exports = router;

@@ -1,8 +1,15 @@
-#GPIO Setup
+#Import Packages
 import json
 import RPi.GPIO as GPIO
 from time import sleep
+import netifaces as ni
+from pymongo import MongoClient
+from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 
+#Serial Number
+serial = "qaz123"
+
+#GPIO Setup
 GPIO.setmode(GPIO.BOARD)
 
 Motor1A = 16
@@ -21,17 +28,22 @@ GPIO.setup(Motor2A,GPIO.OUT)
 GPIO.setup(Motor2B,GPIO.OUT)
 GPIO.setup(Motor2E,GPIO.OUT)
 
-GPIO.output(Motor1A,GPIO.HIGH)
-GPIO.output(Motor1B,GPIO.LOW)
+pwdMotor1 = GPIO.PWM(22,1000)
+pwdMotor2 = GPIO.PWM(15,1000)
 
-GPIO.output(Motor2A,GPIO.HIGH)
-GPIO.output(Motor2B,GPIO.LOW)
 
-pwdMotor1 = GPIO.PWM(22,25)
-pwdMotor2 = GPIO.PWM(15,25)
+#Get IP Address and store it into DB
+ni.ifaddresses('wlan0')
+ip = ni.ifaddresses('wlan0')[2][0]['addr']
+print ip
 
-from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+client = MongoClient()
+client = MongoClient('192.168.0.101', 27017)
+db = client['raspibot']
+db.robots.update_one({"serial":serial},{"$set":{"ip": ip}}, upsert=True)
 
+
+#Motor Control
 def runMotor(motorNum, speed):
 
         print(motorNum, speed)
@@ -46,6 +58,8 @@ def runMotor(motorNum, speed):
 				else:
                         pwdMotor2.start(speed)
 
+
+#HTTP Server
 class S(BaseHTTPRequestHandler):
     def _set_headers(self):
         self.send_response(200)

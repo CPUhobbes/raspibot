@@ -17,7 +17,7 @@ Mongoose.Promise = Promise;
 
 //Mongoose
 //mongoose.connect("mongodb://heroku_fb0c0r33:ev7f7ms18p5bt4nvrilok3b9ap@ds111788.mlab.com:11788/heroku_fb0c0r33");
-Mongoose.connect("mongodb://localhost/scraperlocal");
+Mongoose.connect("mongodb://localhost/raspibot");
 const db = Mongoose.connection;
 
 //Mongoose Error

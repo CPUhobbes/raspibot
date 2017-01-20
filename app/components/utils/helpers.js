@@ -4,34 +4,38 @@ import axios from "axios";
 // Helper Functions (in this case the only one is runQuery)
 const helpers = {
 
-  runQuery: (motorNum, speed, direction) => {
-  	
+  moveRobot: (motorOneSpeed, motorTwoSpeed, direction, ip) => {
+	
 
-    //const queryURL = "http://192.168.0.150:8080?motorNum=" + motorNum + "&speed="+speed;
+	//const queryURL = "http://192.168.0.150:8080?motorNum=" + motorNum + "&speed="+speed;
 
-    return axios({
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      url:'http://192.168.0.150:8080',
-      data:{
-        motorNum:motorNum,
-        speed:speed,
-        direction: direction
-      },
-      method: 'post',      
+	return axios({
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+		url:'http://'+ip,
+		data:{
+			motorOneSpeed:motorOneSpeed,
+			motorTwoSpeed:motorTwoSpeed,
+			direction: direction
+		},
+		method: 'post',
+	})
+	.then((response) => {
+		return response
+	});
 
-    }
-        
+  },
 
+  getBotIP: (serial) => {
+	let queryString = '/api/getBotID/?serial='+serial;
 
-
-
-      ).then((response) => {
-
-      //console.log(response.data.response.docs);
-      return response
-    });
+	return axios.get(queryString).then((response) => {
+		console.log(response.data.ip);
+		return response.data.ip;
+	});
 
   }
+
+
 
 
 };
