@@ -1,16 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import {hashHistory} from "react-router";
+
 
 //Bootstrap Components
-import {Navbar} from "react-bootstrap";
-import {Nav} from "react-bootstrap";
-import {NavItem} from "react-bootstrap";
-import {Modal} from "react-bootstrap";
-import {Button} from "react-bootstrap";
-import {Form} from "react-bootstrap";
-import {FormControl} from "react-bootstrap";
-import {ControlLabel} from "react-bootstrap";
-import {FormGroup} from "react-bootstrap";
+import {Nav, Navbar, NavItem, Modal,Button, Form, FormControl, ControlLabel, FormGroup} from "react-bootstrap";
+import {IndexLinkContainer} from "react-router-bootstrap";
 
 // Import sub-components
 import Index from "./children/home";
@@ -38,9 +33,14 @@ class Main extends React.Component {
 
 			//Default search states
 			loginText: "Log in",
-			user:"",
+			user:"Log In",
 			pass:"",
-			showModal:false
+			modal:{
+				showModal:false,
+				enable:true
+			},
+			
+			homeLink:"/"
 		};
 
 		//Bind this to functions
@@ -54,7 +54,6 @@ class Main extends React.Component {
 	componentDidUpdate(prevProps, prevState) {
 		
 	}
-
 
 	handleChange(event) {
     var newState = {};
@@ -70,19 +69,20 @@ class Main extends React.Component {
   	}
 
   	loginHelper(event){
-  		//event.preventDefault();
-  		//ReactDOM.findDOMNode(this.refs.userUrl).removeAttribute("data-toggle");
 
-  		//ReactDOM.findDOMNode(this.refs.userUrl).setAttribute("href", "#/user/Eric");
-  		//ReactDOM.findDOMNode(this.refs.userUrl).blur();
-
-  		//window.location.replace("#/user/Eric");
-  		console.log("hit")
+  		this.setState({user:"Hi, "+"Eric"});
+  		this.setState({homeLink:"/user/Eric/"});
+  		this.triggerModal();
+  		let modalState = {showModal:false, enable:false};
+  		this.setState({modal: modalState});
+  		hashHistory.push("/user/Eric/");
   	}
 
   	triggerModal(){
-  		this.setState({showModal:!this.state.showModal});
-
+  		let modalState = {showModal:!this.state.modal.showModal, enable:true};
+  		if(this.state.modal.enable){
+  			this.setState({modal: modalState});
+  		} 		
   	}
 	
 
@@ -101,10 +101,16 @@ class Main extends React.Component {
 				    </Navbar.Header>
 				    <Navbar.Collapse>
 				      <Nav pullRight>
-				        <NavItem eventKey={1} href="#/">Home</NavItem>
-				        <NavItem eventKey={2} href="#/about">About</NavItem>
-				        <NavItem eventKey={3} href="#/contact">Contact</NavItem>
-				        <NavItem eventKey={4} onClick={this.triggerModal}>Log in</NavItem>
+				      	<IndexLinkContainer to={this.state.homeLink} activeHref="active">
+				        	<NavItem eventKey={1}>Home</NavItem>
+				        </IndexLinkContainer>
+				        <IndexLinkContainer to="/about" activeHref="active">
+				        	<NavItem eventKey={2}>About</NavItem>
+				        </IndexLinkContainer>
+				        <IndexLinkContainer to="/contact" activeHref="active">
+				        	<NavItem eventKey={3}>Contact</NavItem>
+				        </IndexLinkContainer>
+				        <NavItem eventKey={4} onClick={this.triggerModal}>{this.state.user}</NavItem>
 				      </Nav>
 				    </Navbar.Collapse>
 				  </Navbar>
@@ -114,23 +120,23 @@ class Main extends React.Component {
 		    
 			     
 			    {/*MODAL HERE*/}
-			    <Modal  show={this.state.showModal} onHide={this.triggerModal}>
+			    <Modal show={this.state.modal.showModal} onHide={this.triggerModal}>
 			      <Modal.Header closeButton>
 			        <Modal.Title>Log In to Raspi-Bot</Modal.Title>
 			      </Modal.Header>
 
 			      <Modal.Body>
-			        <Form>
+			        <Form onSubmit={this.loginHelper}>
 			        	<FormGroup>
 			        		<ControlLabel>Email</ControlLabel>
 			        	 	<FormControl type="text" placeholder="Jane Doe" />
 			        	 </FormGroup>
 			        	 <FormGroup>
 			        	 	<ControlLabel>Password</ControlLabel>
-			        	 	<FormControl type="text" placeholder="Jane Doe" />
+			        	 	<FormControl type="text" placeholder="Jane Doe"/>
 			        	 </FormGroup>
 			        	 <div className="text-center">
-						    <Button bsStyle="primary">Go!</Button>
+						    <Button bsStyle="primary" type="submit">Go!</Button>
 						</div>
 			        </Form>
 			      </Modal.Body>
