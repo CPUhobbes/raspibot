@@ -67,6 +67,11 @@ body{
 	color: white;
 }
 
+.botImg{
+	width: 100px;
+	height: 100px;
+}
+
 .Absolute-Center {
   margin: auto;
   position: absolute;
