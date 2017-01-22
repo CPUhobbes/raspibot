@@ -2,9 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import {hashHistory} from "react-router";
 
-
 //Bootstrap Components
-import {Nav, Navbar, NavItem, Modal,Button, Form, FormControl, ControlLabel, FormGroup} from "react-bootstrap";
+import {Nav, Navbar, NavItem, Modal,Button, Form, FormControl, ControlLabel, FormGroup, Col, Row, Grid, HelpBlock} from "react-bootstrap";
 import {IndexLinkContainer} from "react-router-bootstrap";
 
 // Import sub-components
@@ -14,13 +13,11 @@ import Contact from "./children/contact";
 import Dashboard from "./children/dashboard";
 import Controls from "./children/controls";
 
+//Cookies for login persistance
 import Cookies from "react-cookie";
 
-
-// Helper Function
-//import helpers from "./utils/helpers";
-
-//import Perf from 'react-addons-perf';
+// Helper Functions
+import UserHelper from "./utils/UserHelper";
 
 // Create the Parent Component
 class Main extends React.Component {
@@ -33,15 +30,18 @@ class Main extends React.Component {
 
 			//Default search states
 			loginText: "Log In",
-			user:"Log In",
+			user:"",
 			pass:"",
+			verifyPass:"",
 			modal:{
 				showModal:false,
 				enable:true
 			},
-			
 			homeLink:"/",
-			loggedIn:false
+			loggedIn:false,
+			newUser:false,
+			message:"",
+			failedLogin:false
 		};
 
 		//Bind this to functions
@@ -49,11 +49,41 @@ class Main extends React.Component {
 		this.setLoginName = this.setLoginName.bind(this);
 		this.loginHelper = this.loginHelper.bind(this);
 		this.triggerModal = this.triggerModal.bind(this);
+		this.updateModal = this.updateModal.bind(this);
+		this.newUser = this.newUser.bind(this);
+		this.updateForm = this.updateForm.bind(this);
+		this.getValidationState = this.getValidationState.bind(this);
 	}
 
 	//Check for updated states
 	componentDidUpdate(prevProps, prevState) {
-		
+
+		//Check to see if password message needs updating
+		if((prevState.pass!== this.state.pass) || (prevState.verifyPass!== this.state.verifyPass) ){
+			if(this.state.pass !== this.state.verifyPass && this.state.verifyPass.length>0){
+	    		this.setState({message:"Passwords Do Not Match"});
+	    	}
+	    	else if(this.state.pass === this.state.verifyPass && this.state.verifyPass.length>0){
+	  			this.setState({message:""});
+	  		}
+	  		else if(this.state.pass ==='' && this.state.verifyPass ===''){
+	  			this.setState({message:""});
+	  		}
+	  	}
+
+	  	//Update message if failed log in
+	  	if(prevState.failedLogin !== this.state.failedLogin && this.state.failedLogin && this.state.newUser){
+	  		this.setState({message:this.state.message});
+	  	}
+	  	else if(prevState.failedLogin !== this.state.failedLogin && this.state.failedLogin && !this.state.newUser){
+	  		this.setState({message:this.state.message});
+	  	}
+	  	else if(prevState.failedLogin !== this.state.failedLogin && !this.state.failedLogin){
+	  		this.setState({message:""});
+	  	}
+	  	
+	  	
+
 	}
 
 	handleChange(event) {
@@ -71,28 +101,135 @@ class Main extends React.Component {
 
   	loginHelper(event){
   		event.preventDefault();
-  		this.setState({loggedIn:true});
-  		this.setState({user:"Hi, "+"Eric"});
-  		this.setState({homeLink:"/user/Eric/"});
-  		this.triggerModal();
-  		let modalState = {showModal:false, enable:false};
-  		this.setState({modal: modalState});
-  		hashHistory.push("/user/Eric/");
+
+  		//Check username length
+  		if(this.state.user.length<3){
+  			this.setState({failedLogin:true})
+  			this.setState({message:"Please enter a valid email"});
+  		}
+
+  		else if(this.state.pass.length<6){
+  			this.setState({failedLogin:true})
+  			this.setState({message:"Password must be at least 6 characters"});
+  		}
+  		else{
+
+  			let userName = this.state.user.split("@");
+
+  			if(this.state.newUser){
+  				if(this.state.pass!==this.state.verifyPass){
+  					this.setState({failedLogin:true})
+  					this.setState({message:"Passwords Do Not Match"});
+  				}
+  				else{
+
+		  			UserHelper.createUser(userName, this.state.pass).then((data)=>{
+			  			if(!data){
+			  				this.setState({failedLogin:true})
+			  				this.setState({message:"User Exists!"});
+			  			}
+			  			else{
+			  				//Update states for user
+			  				this.setState({failedLogin:false})
+			  				this.setState({loggedIn:true});
+			  				this.setState({loginText:"Hi, "+userName[0]});
+			  				this.setState({homeLink:"/user/"+userName[0]+"/"});
+
+			  				//Disable modal
+			  				this.triggerModal();
+			  				let modalState = {showModal:false, enable:false};
+			  				this.setState({modal: modalState});
+
+			  				//Go to Dashboard
+			  				hashHistory.push("/user/"+userName[0]+"/");
+
+			  			}
+		  			});
+		  		}
+
+		  	}
+
+		  	else{
+		  		UserHelper.verifyLogIn(userName, this.state.pass).then((data)=>{
+		  			console.log(data);
+			  			if(!data){
+			  				this.setState({failedLogin:true})
+			  				this.setState({message:"Incorrect Username or Password"});
+			  			}
+			  			else{
+			  				//Update states for user
+			  				this.setState({failedLogin:false})
+			  				this.setState({loggedIn:true});
+			  				this.setState({loginText:"Hi, "+userName[0]});
+			  				this.setState({homeLink:"/user/"+userName[0]+"/"});
+
+			  				//Disable modal
+			  				this.triggerModal();
+			  				let modalState = {showModal:false, enable:false};
+			  				this.setState({modal: modalState});
+
+			  				//Go to Dashboard
+			  				hashHistory.push("/user/"+userName[0]+"/");
+
+			  			}
+		  			});
+
+
+
+
+
+
+
+		  	}
+  		}
   			//console.log(ReactDOM.findDOMNode(this.refs.cool));
   	}
 
   	triggerModal(){
   		let modalState = {showModal:!this.state.modal.showModal, enable:true};
+
+  		//Reset modal message states
+  		this.setState({newUser:false});
+  		this.setState({message:""});
+  		this.setState({failedLogin:false});
+
   		if(this.state.modal.enable){
   			this.setState({modal: modalState});
   		} 		
+  	}
+
+  	newUser(){
+  		this.setState({newUser:!this.state.newUser});
+  	}
+
+  	updateForm(event){
+
+
+  		var newState = {};
+    	newState[event.target.id] = event.target.value;
+    	this.setState(newState);
+    	
+
+  	}
+
+  	getValidationState(){
+  		if(this.state.pass !== this.state.verifyPass && this.state.verifyPass.length>0){
+  			return 'error';
+  		}
+  		else if(this.state.pass === this.state.verifyPass && this.state.verifyPass.length>0){
+  			return 'success';
+  		}
+  		else{
+  			return 'warning';
+  		}
+
   	}
 
   	updateNavbar(){
   		if(this.state.loggedIn){
   			return(<div>
   				<Navbar.Text pullRight className="loginName">
-				    {this.state.user}
+				    {this.state.loginText}
 				</Navbar.Text>
 				<Nav pullRight>
 			      	<IndexLinkContainer to={this.state.homeLink} activeHref="active">
@@ -121,13 +258,54 @@ class Main extends React.Component {
 			        <IndexLinkContainer to="/contact" activeHref="active">
 			        	<NavItem eventKey={3}>Contact</NavItem>
 			        </IndexLinkContainer>
-				    <NavItem eventKey={4} onClick={this.triggerModal}>{this.state.user}</NavItem>
+				    <NavItem eventKey={4} onClick={this.triggerModal}>{this.state.loginText}</NavItem>
 			    </Nav>
 			    </div>
   			);
   		}
   	}
-	
+
+  	updateModal(){
+  		if(this.state.newUser){
+  			return(
+  				<div>
+  					<FormGroup validationState={this.getValidationState()}>
+			        	 	<ControlLabel>Password</ControlLabel>
+			        	 	<FormControl type="password" id="pass" placeholder="Password"/>
+			        	 </FormGroup>
+  					<FormGroup validationState={this.getValidationState()}>
+			        	 <ControlLabel>Re-Enter Password</ControlLabel>
+			        	 <FormControl type="password" id="verifyPass" placeholder="Re-Enter Password" />
+			       	</FormGroup>
+					<Row>
+				    	<Col sm={12} className="text-center">
+				    		<Button bsStyle="primary" type="submit">Go to Raspi-Bot!</Button>
+				    	</Col>
+				    </Row>
+				</div>
+			);
+  		}
+  		else{
+  			return(
+  				<div>
+  					<FormGroup>
+			        	 <ControlLabel>Password</ControlLabel>
+			        	 <FormControl type="password" id="pass" placeholder="Password"/>
+			        </FormGroup>
+					<Row>
+						<Col sm={4} smOffset={2} className="text-center">
+				    		<Button bsStyle="success" onClick={this.newUser}>New User</Button>
+				    	</Col>
+				    	<Col sm={4} className="text-center">
+				    		<Button bsStyle="primary" type="submit">Go to Raspi-Bot!</Button>
+				    	</Col>
+				    </Row>
+				</div>
+			)
+  		}
+
+
+  	}
 
 	// Create the render function for what will be displayed on page.
 	render(){
@@ -135,6 +313,8 @@ class Main extends React.Component {
 		return(
 			
 			<div>
+
+				{/* -- NavBar -- */}
 				<Navbar id="main-nav" staticTop>
 				    <Navbar.Header>
 				    	<Navbar.Brand>
@@ -146,29 +326,29 @@ class Main extends React.Component {
 						{this.updateNavbar()}
 				    </Navbar.Collapse>
 				</Navbar>
-			    	
+
+			    {/* -- React Children -- */}	
 			    {React.cloneElement(this.props.children, {setLoginName: this.setLoginName})}
 		    
-			    {/*MODAL HERE*/}
+			    {/* -- Modal -- */}
 			    <Modal show={this.state.modal.showModal} onHide={this.triggerModal}>
 			      <Modal.Header closeButton>
 			        <Modal.Title>Log In to Raspi-Bot</Modal.Title>
 			      </Modal.Header>
 
 			      <Modal.Body>
-			        <Form onSubmit={this.loginHelper}>
+			        <Form onSubmit={this.loginHelper} onChange={this.updateForm}>
 			        	<FormGroup>
 			        		<ControlLabel>Email</ControlLabel>
-			        	 	<FormControl type="text" placeholder="Jane Doe" />
+			        	 	<FormControl type="text" id="user" placeholder="user@internet.com" />
 			        	 </FormGroup>
-			        	 <FormGroup>
-			        	 	<ControlLabel>Password</ControlLabel>
-			        	 	<FormControl type="text" placeholder="Jane Doe"/>
-			        	 </FormGroup>
-			        	 <div className="text-center">
-						    <Button bsStyle="primary" type="submit">Go!</Button>
-						</div>
+			        	 {this.updateModal()}
 			        </Form>
+			        <div className="text-center">
+			        	<FormGroup validationState="error">
+			        	<HelpBlock><h2>{this.state.message}</h2></HelpBlock>
+			        	</FormGroup>
+			        </div>
 			      </Modal.Body>
 			    </Modal>
 

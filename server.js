@@ -2,7 +2,7 @@
 
 //Dependencies
 const express = require('express'),
-    Articles = require('./models/Articles.js'),
+    UserAccount = require('./models/UserAccount.js'),
     Routes = require ('./config/routes.js'),
     BodyParser = require('body-parser'),
     Mongoose = require("mongoose"),

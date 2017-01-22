@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import helpers from ".././utils/helpers";
+import BotHelper from ".././utils/BotHelper";
 import axios from 'axios';
 
 class Search extends React.Component {
@@ -38,8 +38,10 @@ class Search extends React.Component {
 
 	componentWillMount(){
 
+		/***** FIX THIS INSIDE HELPER ********/
+
 		//Axios is promise based, cannot update img_addr using helper class 
-		let queryString = '/api/getBotID/?serial='+this.props.params.botID;
+		let queryString = '/api/bot/getBotID/?serial='+this.props.params.botID;
 		return axios.get(queryString).then((response) => {
 			if(response.data !== null){
 				this.setState({ip_Addr:response.data.ip});
@@ -84,13 +86,13 @@ class Search extends React.Component {
 		  	if(event.key === "a" && this.state.keyStatus.gas === true  && this.state.keyStatus.right === false && this.state.keyStatus.brake === false ){
 		  		this.state.keyStatus.left = true;
 		  		
-		  		helpers.moveRobot(0,100,1, (this.state.ip_Addr+this.state.port));
+		  		BotHelper.moveRobot(0,100,1, (this.state.ip_Addr+this.state.port));
 
 		  	}
 		  	else if(event.key ==="d" && this.state.keyStatus.gas === true  && this.state.keyStatus.left === false && this.state.keyStatus.brake === false){
 		  		this.state.keyStatus.right = true;
 
-		  		helpers.moveRobot(100,0,1, (this.state.ip_Addr+this.state.port));
+		  		BotHelper.moveRobot(100,0,1, (this.state.ip_Addr+this.state.port));
 
 		  	}
 		  	else if(event.key ==="a" && this.state.keyStatus.brake === true && this.state.keyStatus.right === false  && this.state.keyStatus.gas === false ){
@@ -98,7 +100,7 @@ class Search extends React.Component {
 		  		this.state.keyStatus.brake = true;
 		  		this.state.keyStatus.gas = false;
 
-		  		helpers.moveRobot(0,100,-1, (this.state.ip_Addr+this.state.port));
+		  		BotHelper.moveRobot(0,100,-1, (this.state.ip_Addr+this.state.port));
 
 		  	}
 		  	else if(event.key ==="d" && this.state.keyStatus.brake === true && this.state.keyStatus.left === false && this.state.keyStatus.gas === false ){
@@ -106,19 +108,19 @@ class Search extends React.Component {
 		  		this.state.keyStatus.brake = true;
 		  		this.state.keyStatus.gas = false;
 
-		  		helpers.moveRobot(100,0,-1, (this.state.ip_Addr+this.state.port));
+		  		BotHelper.moveRobot(100,0,-1, (this.state.ip_Addr+this.state.port));
 
 		  	}
 		  	else if(event.key ==="w" && this.state.keyStatus.brake === false){
 		  		this.state.keyStatus.gas = true;
 
-		  		helpers.moveRobot(100,100,1, (this.state.ip_Addr+this.state.port));
+		  		BotHelper.moveRobot(100,100,1, (this.state.ip_Addr+this.state.port));
 
 		  	}
 		  	else if(event.key ==="s" && this.state.keyStatus.gas === false) {
 		  		this.state.keyStatus.brake = true;
 
-		  		helpers.moveRobot(100,100,-1, (this.state.ip_Addr+this.state.port));
+		  		BotHelper.moveRobot(100,100,-1, (this.state.ip_Addr+this.state.port));
 		  		
 		  	}
 		}
@@ -128,32 +130,32 @@ class Search extends React.Component {
   	if(this.state.ip_Addr!==''){
 	  	if(event.key ==="a" && this.state.keyStatus.left === true && this.state.keyStatus.gas === true && this.state.keyStatus.brake === false){
 	  		this.state.keyStatus.left = false;
-	  		helpers.moveRobot(100,100, 1, (this.state.ip_Addr+this.state.port));
+	  		BotHelper.moveRobot(100,100, 1, (this.state.ip_Addr+this.state.port));
 
 	  	}
 	  	else if(event.key ==="d" && this.state.keyStatus.right === true && this.state.keyStatus.gas === true && this.state.keyStatus.brake === false){
 	  		this.state.keyStatus.right = false;
-	  		helpers.moveRobot(100,100, 1, (this.state.ip_Addr+this.state.port));
+	  		BotHelper.moveRobot(100,100, 1, (this.state.ip_Addr+this.state.port));
 
 	  	}
 	  	if(event.key ==="a" && this.state.keyStatus.left === true && this.state.keyStatus.brake === true && this.state.keyStatus.gas === false){
 	  		this.state.keyStatus.left = false;
-	  		helpers.moveRobot(100,100, -1, (this.state.ip_Addr+this.state.port));
+	  		BotHelper.moveRobot(100,100, -1, (this.state.ip_Addr+this.state.port));
 
 	  	}
 	  	else if(event.key ==="d" && this.state.keyStatus.right === true && this.state.keyStatus.brake === true && this.state.keyStatus.gas === false){
 	  		this.state.keyStatus.right = false;
-	  		helpers.moveRobot(100,100, -1, (this.state.ip_Addr+this.state.port));
+	  		BotHelper.moveRobot(100,100, -1, (this.state.ip_Addr+this.state.port));
 
 	  	}
 	  	else if(event.key ==="w" && this.state.keyStatus.gas === true){
 	  		this.state.keyStatus.gas = false;
-	  		helpers.moveRobot(0,0, 1, (this.state.ip_Addr+this.state.port));
+	  		BotHelper.moveRobot(0,0, 1, (this.state.ip_Addr+this.state.port));
 
 	  	}
 	  	else if(event.key ==="s" && this.state.keyStatus.brake === true) {
 	  		this.state.keyStatus.brake = false;
-	  		helpers.moveRobot(0,0,-1, (this.state.ip_Addr+this.state.port));
+	  		BotHelper.moveRobot(0,0,-1, (this.state.ip_Addr+this.state.port));
 		  	
 
 	  	}
