@@ -9,52 +9,63 @@ body{
 }
 
 .flip_video{
-    -webkit-transform: rotate(180deg);
-    -moz-transform: rotate(180deg);
-    -o-transform: rotate(180deg);
-    -ms-transform: rotate(180deg);
-    transform: rotate(180deg);
+	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
+	transform: rotate(180deg);
 }
 
 #main-nav.navbar-default .navbar-brand {
-    color: rgba(252, 252, 252, 1);
+	color: rgba(252, 252, 252, 1);
 }
 #main-nav.navbar-default {
-    font-size: 20px;
-    background-color: rgba(3, 0, 51, 1);
-    border: 0;
-    
+	font-size: 20px;
+	background-color: rgba(3, 0, 51, 1);
+	border: 0;
+	
 }
 #main-nav.navbar-default .navbar-nav>li>a {
-    color: rgba(255, 255, 255, 1);
-    background-color: rgba(248, 248, 248, 0);
+	color: rgba(255, 255, 255, 1);
+	background-color: rgba(248, 248, 248, 0);
 }
 #main-nav.navbar-default .navbar-nav>li>a:hover,
 #main-nav.navbar-default .navbar-nav>li>a:focus {
-    color: rgba(51, 51, 51, 1);
-    background-color: rgba(255, 255, 255, 1);
+	color: rgba(51, 51, 51, 1);
+	background-color: rgba(255, 255, 255, 1);
 }
 #main-nav.navbar-default .navbar-nav>.active>a,
 #main-nav.navbar-default .navbar-nav>.active>a:hover,
 #main-nav.navbar-default .navbar-nav>.active>a:focus {
-    color: rgba(15, 196, 15, 1);
-    background-color: rgba(38, 38, 51, 1);
+	color: rgba(15, 196, 15, 1);
+	background-color: rgba(38, 38, 51, 1);
 }
 #main-nav.navbar-default .navbar-toggle {
-    border-color: #262633;
+
 }
 #main-nav.navbar-default .navbar-toggle:hover,
 #main-nav.navbar-default .navbar-toggle:focus {
-    background-color: #262633;
+	
 }
 #main-nav.navbar-default .navbar-toggle .icon-bar {
-    background-color: #262633;
+	background-color: #ffffff;
 }
 #main-nav.navbar-default .navbar-toggle:hover .icon-bar,
 #main-nav.navbar-default .navbar-toggle:focus .icon-bar {
-    background-color: #030033;
+	
 }
-
+ .loginName{
+	color: white;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	line-height: 20px;
+	margin: 0px;
+	padding-right: 0px;
+	padding-left: 15px;
+}
+.navbar-default .navbar-text{
+	color: white;
+}
 
 .Absolute-Center {
   margin: auto;
@@ -72,4 +83,11 @@ body{
 
 .jumbotron{
 	background-color: rgba(255,255,255,.8);
+}
+
+@media only screen and (max-width: 768px) {
+	.loginName{
+		padding-left: 0px;
+		padding-bottom: 0px;
+	}
 }

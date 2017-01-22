@@ -32,7 +32,7 @@ class Main extends React.Component {
 		this.state = {
 
 			//Default search states
-			loginText: "Log in",
+			loginText: "Log In",
 			user:"Log In",
 			pass:"",
 			modal:{
@@ -40,7 +40,8 @@ class Main extends React.Component {
 				enable:true
 			},
 			
-			homeLink:"/"
+			homeLink:"/",
+			loggedIn:false
 		};
 
 		//Bind this to functions
@@ -69,13 +70,15 @@ class Main extends React.Component {
   	}
 
   	loginHelper(event){
-
+  		event.preventDefault();
+  		this.setState({loggedIn:true});
   		this.setState({user:"Hi, "+"Eric"});
   		this.setState({homeLink:"/user/Eric/"});
   		this.triggerModal();
   		let modalState = {showModal:false, enable:false};
   		this.setState({modal: modalState});
   		hashHistory.push("/user/Eric/");
+  			//console.log(ReactDOM.findDOMNode(this.refs.cool));
   	}
 
   	triggerModal(){
@@ -83,6 +86,46 @@ class Main extends React.Component {
   		if(this.state.modal.enable){
   			this.setState({modal: modalState});
   		} 		
+  	}
+
+  	updateNavbar(){
+  		if(this.state.loggedIn){
+  			return(<div>
+  				<Navbar.Text pullRight className="loginName">
+				    {this.state.user}
+				</Navbar.Text>
+				<Nav pullRight>
+			      	<IndexLinkContainer to={this.state.homeLink} activeHref="active">
+			        	<NavItem eventKey={1}>Home</NavItem>
+			        </IndexLinkContainer>
+			        <IndexLinkContainer to="/about" activeHref="active">
+			        	<NavItem eventKey={2}>About</NavItem>
+			        </IndexLinkContainer>
+			        <IndexLinkContainer to="/contact" activeHref="active">
+			        	<NavItem eventKey={3}>Contact</NavItem>
+			        </IndexLinkContainer>
+			    </Nav>
+			    </div>
+  			);
+  		}
+  		else{
+  			return(
+  				<div>
+				<Nav pullRight>
+			      	<IndexLinkContainer to={this.state.homeLink} activeHref="active">
+			        	<NavItem eventKey={1}>Home</NavItem>
+			        </IndexLinkContainer>
+			        <IndexLinkContainer to="/about" activeHref="active">
+			        	<NavItem eventKey={2}>About</NavItem>
+			        </IndexLinkContainer>
+			        <IndexLinkContainer to="/contact" activeHref="active">
+			        	<NavItem eventKey={3}>Contact</NavItem>
+			        </IndexLinkContainer>
+				    <NavItem eventKey={4} onClick={this.triggerModal}>{this.state.user}</NavItem>
+			    </Nav>
+			    </div>
+  			);
+  		}
   	}
 	
 
@@ -92,33 +135,20 @@ class Main extends React.Component {
 		return(
 			
 			<div>
-				<Navbar id="main-nav">
+				<Navbar id="main-nav" staticTop>
 				    <Navbar.Header>
-				      <Navbar.Brand>
-				        <a href="#">Raspi-Bot</a>
-				      </Navbar.Brand>
-				      <Navbar.Toggle />
+				    	<Navbar.Brand>
+				        	<a href="#">Raspi-Bot</a>
+				      	</Navbar.Brand>
+				    	<Navbar.Toggle />
 				    </Navbar.Header>
 				    <Navbar.Collapse>
-				      <Nav pullRight>
-				      	<IndexLinkContainer to={this.state.homeLink} activeHref="active">
-				        	<NavItem eventKey={1}>Home</NavItem>
-				        </IndexLinkContainer>
-				        <IndexLinkContainer to="/about" activeHref="active">
-				        	<NavItem eventKey={2}>About</NavItem>
-				        </IndexLinkContainer>
-				        <IndexLinkContainer to="/contact" activeHref="active">
-				        	<NavItem eventKey={3}>Contact</NavItem>
-				        </IndexLinkContainer>
-				        <NavItem eventKey={4} onClick={this.triggerModal}>{this.state.user}</NavItem>
-				      </Nav>
+						{this.updateNavbar()}
 				    </Navbar.Collapse>
-				  </Navbar>
+				</Navbar>
 			    	
-
-			     {React.cloneElement(this.props.children, {setLoginName: this.setLoginName})}
+			    {React.cloneElement(this.props.children, {setLoginName: this.setLoginName})}
 		    
-			     
 			    {/*MODAL HERE*/}
 			    <Modal show={this.state.modal.showModal} onHide={this.triggerModal}>
 			      <Modal.Header closeButton>
