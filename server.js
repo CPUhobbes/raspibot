@@ -16,7 +16,7 @@ app = express();
 Mongoose.Promise = Promise;
 
 //Mongoose
-mongoose.connect("mongodb://heroku_wm0zb9qc:45gok196pn30n8aiercjv0s7fr@ds033259.mlab.com:33259/heroku_wm0zb9qc");
+Mongoose.connect("mongodb://heroku_wm0zb9qc:45gok196pn30n8aiercjv0s7fr@ds033259.mlab.com:33259/heroku_wm0zb9qc");
 //Mongoose.connect("mongodb://localhost/raspibot");
 const db = Mongoose.connection;
 
