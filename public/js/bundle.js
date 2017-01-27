@@ -21650,10 +21650,11 @@
 
 			_this.state = {
 
-				//Default search states
+				//Default states
 				loginText: "Log In",
 				user: "",
 				pass: "",
+				userData: {},
 				verifyPass: "",
 				modal: {
 					showModal: false,
@@ -21675,6 +21676,7 @@
 			_this.newUser = _this.newUser.bind(_this);
 			_this.updateForm = _this.updateForm.bind(_this);
 			_this.getValidationState = _this.getValidationState.bind(_this);
+			_this.getUserData = _this.getUserData.bind(_this);
 			return _this;
 		}
 
@@ -21715,7 +21717,6 @@
 		}, {
 			key: "setLoginName",
 			value: function setLoginName(data) {
-				console.log(data.name);
 				this.setState({
 					loginText: data.name
 				});
@@ -21768,11 +21769,11 @@
 							}
 						} else {
 							_UserHelper2.default.verifyLogIn(userName, _this2.state.pass).then(function (data) {
-								console.log(data);
 								if (!data) {
 									_this2.setState({ failedLogin: true });
 									_this2.setState({ message: "Incorrect Username or Password" });
 								} else {
+									_this2.setState({ userData: data });
 									//Update states for user
 									_this2.setState({ failedLogin: false });
 									_this2.setState({ loggedIn: true });
@@ -21819,6 +21820,12 @@
 				var newState = {};
 				newState[event.target.id] = event.target.value;
 				this.setState(newState);
+			}
+		}, {
+			key: "getUserData",
+			value: function getUserData() {
+
+				return this.state.userData;
 			}
 		}, {
 			key: "getValidationState",
@@ -22031,7 +22038,7 @@
 							this.updateNavbar()
 						)
 					),
-					_react2.default.cloneElement(this.props.children, { setLoginName: this.setLoginName }),
+					_react2.default.cloneElement(this.props.children, { setLoginName: this.setLoginName, getUserData: this.getUserData, triggerModal: this.triggerModal }),
 					_react2.default.createElement(
 						_reactBootstrap.Modal,
 						{ show: this.state.modal.showModal, onHide: this.triggerModal },
@@ -46345,9 +46352,17 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactDom = __webpack_require__(32);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
 	var _reactBootstrap = __webpack_require__(235);
 
 	var _reactRouter = __webpack_require__(180);
+
+	var _UserHelper = __webpack_require__(521);
+
+	var _UserHelper2 = _interopRequireDefault(_UserHelper);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -46357,24 +46372,49 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Search = function (_React$Component) {
-		_inherits(Search, _React$Component);
+	var Dashboard = function (_React$Component) {
+		_inherits(Dashboard, _React$Component);
 
-		function Search(props) {
-			_classCallCheck(this, Search);
+		function Dashboard(props) {
+			_classCallCheck(this, Dashboard);
 
-			var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (Dashboard.__proto__ || Object.getPrototypeOf(Dashboard)).call(this, props));
 
 			_this.state = {
-				robotList: ['qaz123']
+				robotList: [],
+				newBot: "",
+				user: ""
 			};
 
 			_this.handleChange = _this.handleChange.bind(_this);
 			_this.handleSubmit = _this.handleSubmit.bind(_this);
+			_this.generateBotList = _this.generateBotList.bind(_this);
+			_this.runBot = _this.runBot.bind(_this);
 			return _this;
 		}
 
-		_createClass(Search, [{
+		_createClass(Dashboard, [{
+			key: "componentWillMount",
+			value: function componentWillMount() {
+				//Get ID from url
+				//this.props.params.userID
+				var userName = this.props.getUserData().user;
+				if (typeof userName !== "undefined") this.setState({ user: this.props.getUserData().user });
+
+				var botList = this.props.getUserData().bots;
+				if (typeof botList !== "undefined") this.setState({ robotList: botList });
+			}
+		}, {
+			key: "componentDidUpdate",
+			value: function componentDidUpdate(prevProps, prevState) {
+				if (prevState.user !== this.props.getUserData().user) {
+					this.setState({ user: this.props.getUserData().user });
+
+					var botList = this.props.getUserData().bots;
+					if (typeof botList !== "undefined") this.setState({ robotList: botList });
+				}
+			}
+		}, {
 			key: "handleChange",
 			value: function handleChange(event) {
 				var newState = {};
@@ -46385,16 +46425,140 @@
 			key: "handleSubmit",
 			value: function handleSubmit(event) {
 				event.preventDefault();
-				console.log("CLICK");
-				//console.log(this.state.searchTerm, this.state.numArticles);
-				this.props.setLoginName({ name: "Testing" });
+				var newState = { robotList: this.state.robotList.push(this.state.newBot) };
+				this.setState({ newState: newState });
+				_UserHelper2.default.addBot(this.state.user, this.state.newBot);
+				_reactDom2.default.findDOMNode(this.refs.newBot).value = '';
+				this.setState({ newBot: "" });
 			}
 		}, {
 			key: "runBot",
 			value: function runBot(id) {
 				_reactRouter.hashHistory.push("/user/Eric/" + id);
+			}
+		}, {
+			key: "generateBotList",
+			value: function generateBotList() {
+				var data = [];
+				var rows = Math.ceil(this.state.robotList.length / 5);
+				for (var i = 0; i < rows; ++i) {
 
-				//console.log("hit");
+					var botBlock = this.state.robotList.slice(i * 5, i * 5 + 5);
+
+					data.push(_react2.default.createElement(
+						_reactBootstrap.Row,
+						{ key: i },
+						botBlock.map(function (val, index) {
+							var _this2 = this;
+
+							if (index === 0) {
+								return _react2.default.createElement(
+									_reactBootstrap.Col,
+									{ key: index, sm: 2, smOffset: 1 },
+									_react2.default.createElement(_reactBootstrap.Image, { src: "/img/bot.png", className: "botImg", responsive: true, onClick: function onClick() {
+											return _this2.runBot(val);
+										} })
+								);
+							} else {
+								return _react2.default.createElement(
+									_reactBootstrap.Col,
+									{ key: index, sm: 2 },
+									_react2.default.createElement(_reactBootstrap.Image, { src: "/img/bot.png", className: "botImg", responsive: true, onClick: function onClick() {
+											return _this2.runBot(val);
+										} })
+								);
+							}
+						}, this)
+					));
+				}
+				return data;
+			}
+		}, {
+			key: "generateDashboard",
+			value: function generateDashboard() {
+
+				if (this.state.user !== '' && typeof this.state.user !== 'undefined') {
+
+					return _react2.default.createElement(
+						"div",
+						null,
+						_react2.default.createElement(
+							"h1",
+							null,
+							"Welcome ",
+							this.state.user
+						),
+						_react2.default.createElement(
+							_reactBootstrap.Grid,
+							null,
+							_react2.default.createElement(
+								_reactBootstrap.Row,
+								null,
+								_react2.default.createElement(
+									_reactBootstrap.Col,
+									{ sm: 10, smOffset: 1 },
+									_react2.default.createElement(
+										"h2",
+										null,
+										"Your Raspi-Bots"
+									)
+								)
+							),
+							this.generateBotList(),
+							_react2.default.createElement(
+								_reactBootstrap.Row,
+								null,
+								_react2.default.createElement(
+									_reactBootstrap.Col,
+									{ sm: 10, smOffset: 1 },
+									_react2.default.createElement(
+										"h3",
+										null,
+										"Add A Raspi-Bot"
+									)
+								)
+							),
+							_react2.default.createElement(
+								_reactBootstrap.Row,
+								null,
+								_react2.default.createElement(
+									_reactBootstrap.Form,
+									{ onChange: this.handleChange, onSubmit: this.handleSubmit },
+									_react2.default.createElement(
+										_reactBootstrap.Col,
+										{ sm: 3, smOffset: 1 },
+										_react2.default.createElement(_reactBootstrap.FormControl, { type: "text", id: "newBot", placeholder: "Serial #", ref: "newBot" })
+									),
+									_react2.default.createElement(
+										_reactBootstrap.Col,
+										{ sm: 1 },
+										_react2.default.createElement(
+											_reactBootstrap.Button,
+											{ bsStyle: "primary", type: "submit" },
+											"Add Raspi-Bot!"
+										)
+									)
+								)
+							)
+						)
+					);
+				} else {
+
+					return _react2.default.createElement(
+						"div",
+						null,
+						_react2.default.createElement(
+							"h2",
+							null,
+							"You are no longer logged in!"
+						),
+						_react2.default.createElement(
+							_reactBootstrap.Button,
+							{ onClick: this.props.triggerModal, bsStyle: "primary" },
+							"Click here to Log In"
+						)
+					);
+				}
 			}
 
 			// Create the render function for what gets displayed on page.
@@ -46402,7 +46566,6 @@
 		}, {
 			key: "render",
 			value: function render() {
-				var _this2 = this;
 
 				return _react2.default.createElement(
 					"div",
@@ -46419,40 +46582,7 @@
 								_react2.default.createElement(
 									_reactBootstrap.Jumbotron,
 									null,
-									_react2.default.createElement(
-										"h1",
-										null,
-										"Welcome ",
-										this.props.params.userID
-									),
-									_react2.default.createElement(
-										_reactBootstrap.Grid,
-										null,
-										_react2.default.createElement(
-											_reactBootstrap.Row,
-											null,
-											_react2.default.createElement(
-												_reactBootstrap.Col,
-												{ sm: 10, smOffset: 1 },
-												_react2.default.createElement(
-													"h2",
-													null,
-													"Your Raspi-bots"
-												)
-											)
-										),
-										_react2.default.createElement(
-											_reactBootstrap.Row,
-											null,
-											_react2.default.createElement(
-												_reactBootstrap.Col,
-												{ sm: 10, smOffset: 1 },
-												_react2.default.createElement(_reactBootstrap.Image, { src: "/img/bot.png", className: "botImg", responsive: true, onClick: function onClick() {
-														return _this2.runBot(_this2.state.robotList[0]);
-													} })
-											)
-										)
-									)
+									this.generateDashboard()
 								)
 							)
 						)
@@ -46461,12 +46591,12 @@
 			}
 		}]);
 
-		return Search;
+		return Dashboard;
 	}(_react2.default.Component);
 	// Export the component back for use in other files
 
 
-	exports.default = Search;
+	exports.default = Dashboard;
 
 /***/ },
 /* 492 */
@@ -46545,7 +46675,7 @@
 				/***** FIX THIS INSIDE HELPER ********/
 
 				//Axios is promise based, cannot update img_addr using helper class 
-				var queryString = '/api/bot/getBotID/?serial=' + this.props.params.botID;
+				var queryString = '/api/bot/getBotIP/?serial=' + this.props.params.botID;
 				return _axios2.default.get(queryString).then(function (response) {
 					if (response.data !== null) {
 						_this2.setState({ ip_Addr: response.data.ip });
@@ -46784,19 +46914,17 @@
 		},
 
 		getBotIP: function getBotIP(serial) {
-			var queryString = '/api/getBotID/?serial=' + serial;
+			var queryString = '/api/getBotIP/?serial=' + serial;
 
 			return _axios2.default.get(queryString).then(function (response) {
 				console.log(response.data.ip);
 				return response.data.ip;
 			});
-		},
-
-		verifyLogIn: function verifyLogIn(user, pass) {}
+		}
 
 	};
 
-	// We export the helpers function (which contains getGithubInfo)
+	// We export the helpers function
 	// Include the axios package for performing HTTP requests (promise based alternative to request)
 	exports.default = helpers;
 
@@ -48699,7 +48827,7 @@
 				return new Promise(function (resolve, reject) {
 					_bcryptNodejs2.default.compare(pass, response.data.pass, function (err, res) {
 						if (res) {
-							resolve(res);
+							resolve(response.data);
 						} else {
 							resolve(false);
 						}
@@ -48708,11 +48836,22 @@
 			}).catch(function (error) {
 				return false;
 			});
+		},
+
+		addBot: function addBot(user, botID) {
+			return _axios2.default.post('../api/user/addBot', {
+				params: {
+					user: user,
+					bot: botID
+				}
+			}).then(function (response) {
+				return response;
+			});
 		}
 
 	};
 
-	// We export the helpers function (which contains getGithubInfo)
+	// We export the helpers function
 	exports.default = helpers;
 
 /***/ },

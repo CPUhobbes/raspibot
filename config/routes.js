@@ -15,12 +15,12 @@ Router.get('/', Index.loadIndex);
  */
 
 //Bot API routes
-Router.get('/api/bot/getBotID',Robots.getRobotIP);
+Router.get('/api/bot/getBotIP',Robots.getRobotIP);
 
 //User API routes
 Router.get('/api/user/validateUser',UserAccount.validateUser);
 Router.post('/api/user/createUser',UserAccount.createUser);
-Router.get('/api/user/addBot',UserAccount.addBot);
+Router.post('/api/user/addBot',UserAccount.addBot);
 Router.get('/api/user/removeBot',UserAccount.removeBot);
 
 module.exports = Router;

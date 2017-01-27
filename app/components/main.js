@@ -28,10 +28,11 @@ class Main extends React.Component {
 
 		this.state = {
 
-			//Default search states
+			//Default states
 			loginText: "Log In",
 			user:"",
 			pass:"",
+			userData:{},
 			verifyPass:"",
 			modal:{
 				showModal:false,
@@ -53,6 +54,7 @@ class Main extends React.Component {
 		this.newUser = this.newUser.bind(this);
 		this.updateForm = this.updateForm.bind(this);
 		this.getValidationState = this.getValidationState.bind(this);
+		this.getUserData = this.getUserData.bind(this);
 	}
 
 	//Check for updated states
@@ -93,7 +95,6 @@ class Main extends React.Component {
   }
 
 	setLoginName(data) {
-		console.log(data.name);
     	this.setState({
       		loginText:data.name
     	});
@@ -151,35 +152,29 @@ class Main extends React.Component {
 
 		  	else{
 		  		UserHelper.verifyLogIn(userName, this.state.pass).then((data)=>{
-		  			console.log(data);
-			  			if(!data){
-			  				this.setState({failedLogin:true})
-			  				this.setState({message:"Incorrect Username or Password"});
-			  			}
-			  			else{
-			  				//Update states for user
-			  				this.setState({failedLogin:false})
-			  				this.setState({loggedIn:true});
-			  				this.setState({loginText:"Hi, "+userName[0]});
-			  				this.setState({homeLink:"/user/"+userName[0]+"/"});
+		  			if(!data){
+		  				this.setState({failedLogin:true})
+		  				this.setState({message:"Incorrect Username or Password"});
+		  			}
 
-			  				//Disable modal
-			  				this.triggerModal();
-			  				let modalState = {showModal:false, enable:false};
-			  				this.setState({modal: modalState});
+		  			else{
+		  				this.setState({userData:data})
+		  				//Update states for user
+		  				this.setState({failedLogin:false})
+		  				this.setState({loggedIn:true});
+		  				this.setState({loginText:"Hi, "+userName[0]});
+		  				this.setState({homeLink:"/user/"+userName[0]+"/"});
 
-			  				//Go to Dashboard
-			  				hashHistory.push("/user/"+userName[0]+"/");
+		  				//Disable modal
+		  				this.triggerModal();
+		  				let modalState = {showModal:false, enable:false};
+		  				this.setState({modal: modalState});
 
-			  			}
-		  			});
+		  				//Go to Dashboard
+		  				hashHistory.push("/user/"+userName[0]+"/");
 
-
-
-
-
-
-
+		  			}
+		  		});
 		  	}
   		}
   			//console.log(ReactDOM.findDOMNode(this.refs.cool));
@@ -208,9 +203,15 @@ class Main extends React.Component {
   		var newState = {};
     	newState[event.target.id] = event.target.value;
     	this.setState(newState);
-    	
+  	}
+
+  	getUserData(){
+
+  		return this.state.userData; 
+
 
   	}
+
 
   	getValidationState(){
   		if(this.state.pass !== this.state.verifyPass && this.state.verifyPass.length>0){
@@ -328,7 +329,7 @@ class Main extends React.Component {
 				</Navbar>
 
 			    {/* -- React Children -- */}	
-			    {React.cloneElement(this.props.children, {setLoginName: this.setLoginName})}
+			    {React.cloneElement(this.props.children, {setLoginName: this.setLoginName, getUserData: this.getUserData, triggerModal: this.triggerModal})}
 		    
 			    {/* -- Modal -- */}
 			    <Modal show={this.state.modal.showModal} onHide={this.triggerModal}>

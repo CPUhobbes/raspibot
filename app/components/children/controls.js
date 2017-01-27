@@ -41,7 +41,7 @@ class Search extends React.Component {
 		/***** FIX THIS INSIDE HELPER ********/
 
 		//Axios is promise based, cannot update img_addr using helper class 
-		let queryString = '/api/bot/getBotID/?serial='+this.props.params.botID;
+		let queryString = '/api/bot/getBotIP/?serial='+this.props.params.botID;
 		return axios.get(queryString).then((response) => {
 			if(response.data !== null){
 				this.setState({ip_Addr:response.data.ip});

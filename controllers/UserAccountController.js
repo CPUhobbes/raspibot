@@ -27,7 +27,15 @@ const controllers = {
     },
 
     addBot: (req, res) =>{
-
+        let user = req.body.params.user;
+        let bot = req.body.params.bot;
+        console.log(user, bot);
+        UserAccount.findOneAndUpdate({"user": user}, {$push:{"bots": bot}}, { upsert: true }, function(err, data){
+            if(err){
+                console.log(err);
+            }
+        });
+        res.send(true)
 
 
     },

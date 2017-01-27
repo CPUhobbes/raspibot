@@ -37,7 +37,7 @@ const helpers = {
 			return new Promise((resolve, reject)=>{
 				Crypt.compare(pass, response.data.pass, function(err, res) {
 					if(res){
-   						resolve(res);
+   						resolve(response.data);
    					}
    					else{
    						resolve(false);
@@ -49,8 +49,19 @@ const helpers = {
 	  	.catch(function (error) {
 	    	return false;
 		});
-  	}
+  	},
 
+  	addBot:(user, botID) =>{
+  		return axios.post('../api/user/addBot', {
+			params:{
+				user: user,
+				bot: botID
+			}
+		}).then(function (response) {
+			return response;
+  		})
+
+	}
 
 
 
@@ -58,5 +69,5 @@ const helpers = {
 
 };
 
-// We export the helpers function (which contains getGithubInfo)
+// We export the helpers function
 export default helpers;

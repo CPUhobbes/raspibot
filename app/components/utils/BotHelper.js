@@ -26,7 +26,7 @@ const helpers = {
 	},
 
 	getBotIP: (serial) => {
-		let queryString = '/api/getBotID/?serial='+serial;
+		let queryString = '/api/getBotIP/?serial='+serial;
 
 		return axios.get(queryString).then((response) => {
 			console.log(response.data.ip);
@@ -35,18 +35,7 @@ const helpers = {
 
 	},
 
-  	verifyLogIn: (user, pass) => {
-  		
-
-	
-  	}
-
-
-
-
-
-
 };
 
-// We export the helpers function (which contains getGithubInfo)
+// We export the helpers function
 export default helpers;
