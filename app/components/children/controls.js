@@ -1,6 +1,7 @@
 "use strict";
 
 import React from "react";
+import {Jumbotron, Grid, Row, Col, Image, Form, Button, FormGroup, FormControl} from "react-bootstrap";
 
 import BotHelper from ".././utils/BotHelper";
 import axios from 'axios';
@@ -80,19 +81,18 @@ class Search extends React.Component {
   	//helpers.moveRobot(motorNum, speed, direction)
   	onKeyDown(event){
   		if(this.state.ip_Addr!==''){
-
   			console.log("Left: "+this.state.keyStatus.left+" Right: "+this.state.keyStatus.right+" Gas: "+ this.state.keyStatus.gas+" Brake: "+this.state.keyStatus.brake)
 		  	
 		  	if(event.key === "a" && this.state.keyStatus.gas === true  && this.state.keyStatus.right === false && this.state.keyStatus.brake === false ){
 		  		this.state.keyStatus.left = true;
 		  		
-		  		BotHelper.moveRobot(0,100,1, (this.state.ip_Addr+this.state.port));
+		  		BotHelper.moveRobot(-100,100, (this.state.ip_Addr+this.state.port));
 
 		  	}
 		  	else if(event.key ==="d" && this.state.keyStatus.gas === true  && this.state.keyStatus.left === false && this.state.keyStatus.brake === false){
 		  		this.state.keyStatus.right = true;
 
-		  		BotHelper.moveRobot(100,0,1, (this.state.ip_Addr+this.state.port));
+		  		BotHelper.moveRobot(100,-100, (this.state.ip_Addr+this.state.port));
 
 		  	}
 		  	else if(event.key ==="a" && this.state.keyStatus.brake === true && this.state.keyStatus.right === false  && this.state.keyStatus.gas === false ){
@@ -100,7 +100,7 @@ class Search extends React.Component {
 		  		this.state.keyStatus.brake = true;
 		  		this.state.keyStatus.gas = false;
 
-		  		BotHelper.moveRobot(0,100,-1, (this.state.ip_Addr+this.state.port));
+		  		BotHelper.moveRobot(-100,100, (this.state.ip_Addr+this.state.port));
 
 		  	}
 		  	else if(event.key ==="d" && this.state.keyStatus.brake === true && this.state.keyStatus.left === false && this.state.keyStatus.gas === false ){
@@ -108,21 +108,28 @@ class Search extends React.Component {
 		  		this.state.keyStatus.brake = true;
 		  		this.state.keyStatus.gas = false;
 
-		  		BotHelper.moveRobot(100,0,-1, (this.state.ip_Addr+this.state.port));
+		  		BotHelper.moveRobot(100,-100, (this.state.ip_Addr+this.state.port));
 
 		  	}
 		  	else if(event.key ==="w" && this.state.keyStatus.brake === false){
 		  		this.state.keyStatus.gas = true;
 
-		  		BotHelper.moveRobot(100,100,1, (this.state.ip_Addr+this.state.port));
+		  		BotHelper.moveRobot(100,100, (this.state.ip_Addr+this.state.port));
 
 		  	}
 		  	else if(event.key ==="s" && this.state.keyStatus.gas === false) {
 		  		this.state.keyStatus.brake = true;
 
-		  		BotHelper.moveRobot(100,100,-1, (this.state.ip_Addr+this.state.port));
-		  		
+		  		BotHelper.moveRobot(-100,-100, (this.state.ip_Addr+this.state.port));
 		  	}
+		  	else if(event.keyCode ===32){
+		  		console.log("horn");
+		  		BotHelper.robotHorn( this.state.ip_Addr+this.state.port);
+
+
+		  	}
+
+
 		}
   	}
 
@@ -130,32 +137,33 @@ class Search extends React.Component {
   	if(this.state.ip_Addr!==''){
 	  	if(event.key ==="a" && this.state.keyStatus.left === true && this.state.keyStatus.gas === true && this.state.keyStatus.brake === false){
 	  		this.state.keyStatus.left = false;
-	  		BotHelper.moveRobot(100,100, 1, (this.state.ip_Addr+this.state.port));
+	  		BotHelper.moveRobot(100,100, (this.state.ip_Addr+this.state.port));
 
 	  	}
 	  	else if(event.key ==="d" && this.state.keyStatus.right === true && this.state.keyStatus.gas === true && this.state.keyStatus.brake === false){
 	  		this.state.keyStatus.right = false;
-	  		BotHelper.moveRobot(100,100, 1, (this.state.ip_Addr+this.state.port));
+	  		BotHelper.moveRobot(100,100, (this.state.ip_Addr+this.state.port));
 
 	  	}
+
 	  	if(event.key ==="a" && this.state.keyStatus.left === true && this.state.keyStatus.brake === true && this.state.keyStatus.gas === false){
 	  		this.state.keyStatus.left = false;
-	  		BotHelper.moveRobot(100,100, -1, (this.state.ip_Addr+this.state.port));
+	  		BotHelper.moveRobot(-100,-100, (this.state.ip_Addr+this.state.port));
 
 	  	}
 	  	else if(event.key ==="d" && this.state.keyStatus.right === true && this.state.keyStatus.brake === true && this.state.keyStatus.gas === false){
 	  		this.state.keyStatus.right = false;
-	  		BotHelper.moveRobot(100,100, -1, (this.state.ip_Addr+this.state.port));
+	  		BotHelper.moveRobot(-100,-100, (this.state.ip_Addr+this.state.port));
 
 	  	}
 	  	else if(event.key ==="w" && this.state.keyStatus.gas === true){
 	  		this.state.keyStatus.gas = false;
-	  		BotHelper.moveRobot(0,0, 1, (this.state.ip_Addr+this.state.port));
+	  		BotHelper.moveRobot(0,0, (this.state.ip_Addr+this.state.port));
 
 	  	}
 	  	else if(event.key ==="s" && this.state.keyStatus.brake === true) {
 	  		this.state.keyStatus.brake = false;
-	  		BotHelper.moveRobot(0,0,-1, (this.state.ip_Addr+this.state.port));
+	  		BotHelper.moveRobot(0,0, (this.state.ip_Addr+this.state.port));
 		  	
 
 	  	}
@@ -166,7 +174,9 @@ class Search extends React.Component {
 	// Create the render function for what gets displayed on page.
 	render() {
 
-		return(
+		if(this.props.getLogInStatus()){
+
+			return(
 			
 				<div>
 
@@ -198,14 +208,17 @@ class Search extends React.Component {
 			  		
 			  	{/*LAST RENDER DIV*/}
 			  	</div>
+			);
+		}
 
-
-					
-			
-
-				
-			
-		)
+		else{
+			return (<div>
+				<Jumbotron>
+				<h2>You are no longer logged in!</h2>
+				<Button onClick={this.props.triggerModal} bsStyle="primary">Click here to Log In</Button>
+				</Jumbotron>
+			</div>);
+		}
 	}
 }
 // Export the component back for use in other files

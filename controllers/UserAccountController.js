@@ -35,13 +35,22 @@ const controllers = {
                 console.log(err);
             }
         });
-        res.send(true)
+        res.send(true);
 
 
     },
     
-    removeBot: (req, res) =>{
-
+    deleteBot: (req, res) =>{
+        let user = req.body.params.user;
+        let bot = req.body.params.bot;
+        console.log(user, bot);
+        UserAccount.findOneAndUpdate({"user": user}, {$pull:{"bots": bot}}, function(err, data){
+            if(err){
+                console.log(err);
+            }
+            console.log(data)
+        });
+        res.send(true);
 
 
     }

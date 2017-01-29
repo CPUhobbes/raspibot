@@ -55,6 +55,7 @@ class Main extends React.Component {
 		this.updateForm = this.updateForm.bind(this);
 		this.getValidationState = this.getValidationState.bind(this);
 		this.getUserData = this.getUserData.bind(this);
+		this.getLogInStatus = this.getLogInStatus.bind(this);
 	}
 
 	//Check for updated states
@@ -206,10 +207,12 @@ class Main extends React.Component {
   	}
 
   	getUserData(){
-
   		return this.state.userData; 
+  	}
 
-
+  	getLogInStatus(){
+  		//console.log(this.state.loggedIn);
+  		return this.state.loggedIn;
   	}
 
 
@@ -329,7 +332,12 @@ class Main extends React.Component {
 				</Navbar>
 
 			    {/* -- React Children -- */}	
-			    {React.cloneElement(this.props.children, {setLoginName: this.setLoginName, getUserData: this.getUserData, triggerModal: this.triggerModal})}
+			    {React.cloneElement(this.props.children, {
+			    	setLoginName: this.setLoginName, 
+			    	getUserData: this.getUserData, 
+			    	triggerModal: this.triggerModal,
+			    	getLogInStatus:this.getLogInStatus
+			    })}
 		    
 			    {/* -- Modal -- */}
 			    <Modal show={this.state.modal.showModal} onHide={this.triggerModal}>

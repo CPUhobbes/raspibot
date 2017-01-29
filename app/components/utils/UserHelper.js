@@ -59,7 +59,19 @@ const helpers = {
 			}
 		}).then(function (response) {
 			return response;
-  		})
+  		});
+
+	},
+
+	deleteBot:(user, botID) =>{
+  		return axios.post('../api/user/deleteBot', {
+			params:{
+				user: user,
+				bot: botID
+			}
+		}).then(function (response) {
+			return response;
+  		});
 
 	}
 

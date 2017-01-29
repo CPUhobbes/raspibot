@@ -21677,6 +21677,7 @@
 			_this.updateForm = _this.updateForm.bind(_this);
 			_this.getValidationState = _this.getValidationState.bind(_this);
 			_this.getUserData = _this.getUserData.bind(_this);
+			_this.getLogInStatus = _this.getLogInStatus.bind(_this);
 			return _this;
 		}
 
@@ -21824,8 +21825,13 @@
 		}, {
 			key: "getUserData",
 			value: function getUserData() {
-
 				return this.state.userData;
+			}
+		}, {
+			key: "getLogInStatus",
+			value: function getLogInStatus() {
+				//console.log(this.state.loggedIn);
+				return this.state.loggedIn;
 			}
 		}, {
 			key: "getValidationState",
@@ -22038,7 +22044,12 @@
 							this.updateNavbar()
 						)
 					),
-					_react2.default.cloneElement(this.props.children, { setLoginName: this.setLoginName, getUserData: this.getUserData, triggerModal: this.triggerModal }),
+					_react2.default.cloneElement(this.props.children, {
+						setLoginName: this.setLoginName,
+						getUserData: this.getUserData,
+						triggerModal: this.triggerModal,
+						getLogInStatus: this.getLogInStatus
+					}),
 					_react2.default.createElement(
 						_reactBootstrap.Modal,
 						{ show: this.state.modal.showModal, onHide: this.triggerModal },
@@ -46437,6 +46448,19 @@
 				_reactRouter.hashHistory.push("/user/Eric/" + id);
 			}
 		}, {
+			key: "deleteBot",
+			value: function deleteBot(id) {
+				_UserHelper2.default.deleteBot(this.state.user, id);
+				var list = this.state.robotList;
+				var robotPos = list.indexOf(id);
+
+				if (robotPos != -1) {
+					list.splice(robotPos, 1);
+				}
+				this.setState({ robotList: list });
+				//alert(id.val);
+			}
+		}, {
 			key: "generateBotList",
 			value: function generateBotList() {
 				var data = [];
@@ -46457,7 +46481,19 @@
 									{ key: index, sm: 2, smOffset: 1 },
 									_react2.default.createElement(_reactBootstrap.Image, { src: "/img/bot.png", className: "botImg", responsive: true, onClick: function onClick() {
 											return _this2.runBot(val);
-										} })
+										} }),
+									_react2.default.createElement(
+										_reactBootstrap.Button,
+										{ bsStyle: "danger", onClick: function onClick() {
+												return _this2.deleteBot(val);
+											} },
+										"Delete Bot"
+									),
+									_react2.default.createElement(
+										"p",
+										null,
+										val
+									)
 								);
 							} else {
 								return _react2.default.createElement(
@@ -46465,7 +46501,19 @@
 									{ key: index, sm: 2 },
 									_react2.default.createElement(_reactBootstrap.Image, { src: "/img/bot.png", className: "botImg", responsive: true, onClick: function onClick() {
 											return _this2.runBot(val);
-										} })
+										} }),
+									_react2.default.createElement(
+										_reactBootstrap.Button,
+										{ bsStyle: "danger", onClick: function onClick() {
+												return _this2.deleteBot(val);
+											} },
+										"Delete Bot"
+									),
+									_react2.default.createElement(
+										"p",
+										null,
+										val
+									)
 								);
 							}
 						}, this)
@@ -46476,9 +46524,8 @@
 		}, {
 			key: "generateDashboard",
 			value: function generateDashboard() {
-
-				if (this.state.user !== '' && typeof this.state.user !== 'undefined') {
-
+				//if(this.state.user !== '' && typeof this.state.user !== 'undefined'){
+				if (this.props.getLogInStatus()) {
 					return _react2.default.createElement(
 						"div",
 						null,
@@ -46614,6 +46661,8 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactBootstrap = __webpack_require__(235);
+
 	var _BotHelper = __webpack_require__(493);
 
 	var _BotHelper2 = _interopRequireDefault(_BotHelper);
@@ -46721,37 +46770,39 @@
 			key: "onKeyDown",
 			value: function onKeyDown(event) {
 				if (this.state.ip_Addr !== '') {
-
 					console.log("Left: " + this.state.keyStatus.left + " Right: " + this.state.keyStatus.right + " Gas: " + this.state.keyStatus.gas + " Brake: " + this.state.keyStatus.brake);
 
 					if (event.key === "a" && this.state.keyStatus.gas === true && this.state.keyStatus.right === false && this.state.keyStatus.brake === false) {
 						this.state.keyStatus.left = true;
 
-						_BotHelper2.default.moveRobot(0, 100, 1, this.state.ip_Addr + this.state.port);
+						_BotHelper2.default.moveRobot(-100, 100, this.state.ip_Addr + this.state.port);
 					} else if (event.key === "d" && this.state.keyStatus.gas === true && this.state.keyStatus.left === false && this.state.keyStatus.brake === false) {
 						this.state.keyStatus.right = true;
 
-						_BotHelper2.default.moveRobot(100, 0, 1, this.state.ip_Addr + this.state.port);
+						_BotHelper2.default.moveRobot(100, -100, this.state.ip_Addr + this.state.port);
 					} else if (event.key === "a" && this.state.keyStatus.brake === true && this.state.keyStatus.right === false && this.state.keyStatus.gas === false) {
 						this.state.keyStatus.left = true;
 						this.state.keyStatus.brake = true;
 						this.state.keyStatus.gas = false;
 
-						_BotHelper2.default.moveRobot(0, 100, -1, this.state.ip_Addr + this.state.port);
+						_BotHelper2.default.moveRobot(-100, 100, this.state.ip_Addr + this.state.port);
 					} else if (event.key === "d" && this.state.keyStatus.brake === true && this.state.keyStatus.left === false && this.state.keyStatus.gas === false) {
 						this.state.keyStatus.right = true;
 						this.state.keyStatus.brake = true;
 						this.state.keyStatus.gas = false;
 
-						_BotHelper2.default.moveRobot(100, 0, -1, this.state.ip_Addr + this.state.port);
+						_BotHelper2.default.moveRobot(100, -100, this.state.ip_Addr + this.state.port);
 					} else if (event.key === "w" && this.state.keyStatus.brake === false) {
 						this.state.keyStatus.gas = true;
 
-						_BotHelper2.default.moveRobot(100, 100, 1, this.state.ip_Addr + this.state.port);
+						_BotHelper2.default.moveRobot(100, 100, this.state.ip_Addr + this.state.port);
 					} else if (event.key === "s" && this.state.keyStatus.gas === false) {
 						this.state.keyStatus.brake = true;
 
-						_BotHelper2.default.moveRobot(100, 100, -1, this.state.ip_Addr + this.state.port);
+						_BotHelper2.default.moveRobot(-100, -100, this.state.ip_Addr + this.state.port);
+					} else if (event.keyCode === 32) {
+						console.log("horn");
+						_BotHelper2.default.robotHorn(this.state.ip_Addr + this.state.port);
 					}
 				}
 			}
@@ -46761,23 +46812,24 @@
 				if (this.state.ip_Addr !== '') {
 					if (event.key === "a" && this.state.keyStatus.left === true && this.state.keyStatus.gas === true && this.state.keyStatus.brake === false) {
 						this.state.keyStatus.left = false;
-						_BotHelper2.default.moveRobot(100, 100, 1, this.state.ip_Addr + this.state.port);
+						_BotHelper2.default.moveRobot(100, 100, this.state.ip_Addr + this.state.port);
 					} else if (event.key === "d" && this.state.keyStatus.right === true && this.state.keyStatus.gas === true && this.state.keyStatus.brake === false) {
 						this.state.keyStatus.right = false;
-						_BotHelper2.default.moveRobot(100, 100, 1, this.state.ip_Addr + this.state.port);
+						_BotHelper2.default.moveRobot(100, 100, this.state.ip_Addr + this.state.port);
 					}
+
 					if (event.key === "a" && this.state.keyStatus.left === true && this.state.keyStatus.brake === true && this.state.keyStatus.gas === false) {
 						this.state.keyStatus.left = false;
-						_BotHelper2.default.moveRobot(100, 100, -1, this.state.ip_Addr + this.state.port);
+						_BotHelper2.default.moveRobot(-100, -100, this.state.ip_Addr + this.state.port);
 					} else if (event.key === "d" && this.state.keyStatus.right === true && this.state.keyStatus.brake === true && this.state.keyStatus.gas === false) {
 						this.state.keyStatus.right = false;
-						_BotHelper2.default.moveRobot(100, 100, -1, this.state.ip_Addr + this.state.port);
+						_BotHelper2.default.moveRobot(-100, -100, this.state.ip_Addr + this.state.port);
 					} else if (event.key === "w" && this.state.keyStatus.gas === true) {
 						this.state.keyStatus.gas = false;
-						_BotHelper2.default.moveRobot(0, 0, 1, this.state.ip_Addr + this.state.port);
+						_BotHelper2.default.moveRobot(0, 0, this.state.ip_Addr + this.state.port);
 					} else if (event.key === "s" && this.state.keyStatus.brake === true) {
 						this.state.keyStatus.brake = false;
-						_BotHelper2.default.moveRobot(0, 0, -1, this.state.ip_Addr + this.state.port);
+						_BotHelper2.default.moveRobot(0, 0, this.state.ip_Addr + this.state.port);
 					}
 				}
 			}
@@ -46789,83 +46841,105 @@
 			value: function render() {
 				var _this5 = this;
 
-				return _react2.default.createElement(
-					"div",
-					null,
-					_react2.default.createElement(
+				if (this.props.getLogInStatus()) {
+
+					return _react2.default.createElement(
 						"div",
-						{ className: "jumbotron" },
+						null,
 						_react2.default.createElement(
 							"div",
-							{ className: "row" },
+							{ className: "jumbotron" },
 							_react2.default.createElement(
 								"div",
-								{ className: "col-md-12" },
+								{ className: "row" },
 								_react2.default.createElement(
-									"h1",
-									null,
-									"Welcome ",
-									this.props.params.userID,
-									", ",
-									this.state.ip_Addr
-								)
-							)
-						),
-						_react2.default.createElement(
-							"div",
-							{ className: "row" },
-							_react2.default.createElement(
-								"div",
-								{ className: "col-md-2" },
-								_react2.default.createElement(
-									"button",
-									{ onMouseDown: function onMouseDown(e) {
-											_this5.onKeyDown({ key: 'a' });
-										}, onMouseUp: function onMouseUp(e) {
-											_this5.onKeyUp({ key: 'a' });
-										}, className: "btn btn-primary btn-lg", id: "left" },
-									'<<<'
-								),
-								_react2.default.createElement(
-									"button",
-									{ onMouseDown: function onMouseDown(e) {
-											_this5.onKeyDown({ key: 'd' });
-										}, onMouseUp: function onMouseUp(e) {
-											_this5.onKeyUp({ key: 'd' });
-										}, className: "btn btn-primary btn-lg", id: "right" },
-									'>>>'
+									"div",
+									{ className: "col-md-12" },
+									_react2.default.createElement(
+										"h1",
+										null,
+										"Welcome ",
+										this.props.params.userID,
+										", ",
+										this.state.ip_Addr
+									)
 								)
 							),
 							_react2.default.createElement(
 								"div",
-								{ className: "col-md-8" },
-								_react2.default.createElement("img", { id: "camera", className: "flip_video", width: "500px", height: "500px", "data-ip": "192.168.0.150:8080", src: this.state.img_addr })
-							),
-							_react2.default.createElement(
-								"div",
-								{ className: "col-md-2" },
+								{ className: "row" },
 								_react2.default.createElement(
-									"button",
-									{ onMouseDown: function onMouseDown(e) {
-											_this5.onKeyDown({ key: 'w' });
-										}, onMouseUp: function onMouseUp(e) {
-											_this5.onKeyUp({ key: 'w' });
-										}, className: "btn btn-success btn-lg", id: "gas" },
-									"GAS"
+									"div",
+									{ className: "col-md-2" },
+									_react2.default.createElement(
+										"button",
+										{ onMouseDown: function onMouseDown(e) {
+												_this5.onKeyDown({ key: 'a' });
+											}, onMouseUp: function onMouseUp(e) {
+												_this5.onKeyUp({ key: 'a' });
+											}, className: "btn btn-primary btn-lg", id: "left" },
+										'<<<'
+									),
+									_react2.default.createElement(
+										"button",
+										{ onMouseDown: function onMouseDown(e) {
+												_this5.onKeyDown({ key: 'd' });
+											}, onMouseUp: function onMouseUp(e) {
+												_this5.onKeyUp({ key: 'd' });
+											}, className: "btn btn-primary btn-lg", id: "right" },
+										'>>>'
+									)
 								),
 								_react2.default.createElement(
-									"button",
-									{ onMouseDown: function onMouseDown(e) {
-											_this5.onKeyDown({ key: 's' });
-										}, onMouseUp: function onMouseUp(e) {
-											_this5.onKeyUp({ key: 's' });
-										}, className: "btn btn-danger btn-lg", id: "brk" },
-									"BRK"
+									"div",
+									{ className: "col-md-8" },
+									_react2.default.createElement("img", { id: "camera", className: "flip_video", width: "500px", height: "500px", "data-ip": "192.168.0.150:8080", src: this.state.img_addr })
+								),
+								_react2.default.createElement(
+									"div",
+									{ className: "col-md-2" },
+									_react2.default.createElement(
+										"button",
+										{ onMouseDown: function onMouseDown(e) {
+												_this5.onKeyDown({ key: 'w' });
+											}, onMouseUp: function onMouseUp(e) {
+												_this5.onKeyUp({ key: 'w' });
+											}, className: "btn btn-success btn-lg", id: "gas" },
+										"GAS"
+									),
+									_react2.default.createElement(
+										"button",
+										{ onMouseDown: function onMouseDown(e) {
+												_this5.onKeyDown({ key: 's' });
+											}, onMouseUp: function onMouseUp(e) {
+												_this5.onKeyUp({ key: 's' });
+											}, className: "btn btn-danger btn-lg", id: "brk" },
+										"BRK"
+									)
 								)
 							)
 						)
-					)
-				);
+					);
+				} else {
+					return _react2.default.createElement(
+						"div",
+						null,
+						_react2.default.createElement(
+							_reactBootstrap.Jumbotron,
+							null,
+							_react2.default.createElement(
+								"h2",
+								null,
+								"You are no longer logged in!"
+							),
+							_react2.default.createElement(
+								_reactBootstrap.Button,
+								{ onClick: this.props.triggerModal, bsStyle: "primary" },
+								"Click here to Log In"
+							)
+						)
+					);
+				}
 			}
 		}]);
 
@@ -46895,7 +46969,7 @@
 	// Helper Functions (in this case the only one is runQuery)
 	var helpers = {
 
-		moveRobot: function moveRobot(motorOneSpeed, motorTwoSpeed, direction, ip) {
+		moveRobot: function moveRobot(motorOneSpeed, motorTwoSpeed, ip) {
 
 			//const queryURL = "http://192.168.0.150:8080?motorNum=" + motorNum + "&speed="+speed;
 
@@ -46903,9 +46977,25 @@
 				headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
 				url: 'http://' + ip,
 				data: {
+					changeMotor: true,
 					motorOneSpeed: motorOneSpeed,
-					motorTwoSpeed: motorTwoSpeed,
-					direction: direction
+					motorTwoSpeed: motorTwoSpeed
+				},
+				method: 'post'
+			}).then(function (response) {
+				return response;
+			});
+		},
+
+		robotHorn: function robotHorn(ip) {
+			return (0, _axios2.default)({
+
+				headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+				url: 'http://' + ip,
+				data: {
+					changeMotor: false,
+					motorOneSpeed: null,
+					motorTwoSpeed: null
 				},
 				method: 'post'
 			}).then(function (response) {
@@ -48840,6 +48930,17 @@
 
 		addBot: function addBot(user, botID) {
 			return _axios2.default.post('../api/user/addBot', {
+				params: {
+					user: user,
+					bot: botID
+				}
+			}).then(function (response) {
+				return response;
+			});
+		},
+
+		deleteBot: function deleteBot(user, botID) {
+			return _axios2.default.post('../api/user/deleteBot', {
 				params: {
 					user: user,
 					bot: botID

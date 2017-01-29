@@ -21,6 +21,6 @@ Router.get('/api/bot/getBotIP',Robots.getRobotIP);
 Router.get('/api/user/validateUser',UserAccount.validateUser);
 Router.post('/api/user/createUser',UserAccount.createUser);
 Router.post('/api/user/addBot',UserAccount.addBot);
-Router.get('/api/user/removeBot',UserAccount.removeBot);
+Router.post('/api/user/deleteBot',UserAccount.deleteBot);
 
 module.exports = Router;

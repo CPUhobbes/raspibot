@@ -69,6 +69,19 @@ class Dashboard extends React.Component {
 		hashHistory.push("/user/Eric/"+id);
 	}
 
+	deleteBot(id){ 
+		UserHelper.deleteBot(this.state.user, id);
+		let list = this.state.robotList;
+		let robotPos = list.indexOf(id);
+
+		if(robotPos!= -1){
+			list.splice(robotPos, 1)
+		}
+		this.setState({robotList:list});
+		//alert(id.val);
+
+	}
+
 	generateBotList(){
 		let data=[];
 		let rows = Math.ceil(this.state.robotList.length/5);
@@ -80,13 +93,16 @@ class Dashboard extends React.Component {
 				if(index===0){
 					return (<Col key={index} sm={2} smOffset={1}>
 									<Image src="/img/bot.png" className="botImg" responsive onClick={()=>this.runBot(val)} />
+									<Button bsStyle="danger" onClick={()=> this.deleteBot(val)}>Delete Bot</Button>
+									<p>{val}</p>
 
 								</Col>)
 				}
 				else{
 					return (<Col key={index} sm={2}>
 									<Image src="/img/bot.png" className="botImg" responsive onClick={()=>this.runBot(val)} />
-
+									<Button bsStyle="danger" onClick={()=> this.deleteBot(val)}>Delete Bot</Button>
+									<p>{val}</p>
 								</Col>)
 
 				}
@@ -98,9 +114,8 @@ class Dashboard extends React.Component {
 	}
 
 	generateDashboard(){
-
-		if(this.state.user !== '' && typeof this.state.user !== 'undefined'){
-									
+		//if(this.state.user !== '' && typeof this.state.user !== 'undefined'){
+		if(this.props.getLogInStatus()){						
 			return(<div>
 				<h1>Welcome {this.state.user}</h1>
 				<Grid>

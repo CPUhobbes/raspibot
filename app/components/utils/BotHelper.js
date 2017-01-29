@@ -4,7 +4,7 @@ import axios from "axios";
 // Helper Functions (in this case the only one is runQuery)
 const helpers = {
 
-	moveRobot: (motorOneSpeed, motorTwoSpeed, direction, ip) => {
+	moveRobot: (motorOneSpeed, motorTwoSpeed, ip) => {
 		
 
 		//const queryURL = "http://192.168.0.150:8080?motorNum=" + motorNum + "&speed="+speed;
@@ -13,15 +13,35 @@ const helpers = {
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 			url:'http://'+ip,
 			data:{
+				changeMotor:true,
 				motorOneSpeed:motorOneSpeed,
-				motorTwoSpeed:motorTwoSpeed,
-				direction: direction
+				motorTwoSpeed:motorTwoSpeed
 			},
 			method: 'post',
 		})
 		.then((response) => {
 			return response
 		});
+
+	},
+
+	robotHorn:(ip)=>{
+		return axios({
+
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+				url:'http://'+ip,
+				data:{
+					changeMotor:false,
+					motorOneSpeed:null,
+					motorTwoSpeed:null
+				},
+				method: 'post',
+		})
+		.then((response) => {
+			return response
+		});
+
+
 
 	},
 
