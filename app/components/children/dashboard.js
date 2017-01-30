@@ -66,7 +66,7 @@ class Dashboard extends React.Component {
 	}
 
 	runBot(id){
-		hashHistory.push("/user/Eric/"+id);
+		hashHistory.push("/user/"+this.state.user+'/'+id);
 	}
 
 	deleteBot(id){ 
@@ -78,8 +78,6 @@ class Dashboard extends React.Component {
 			list.splice(robotPos, 1)
 		}
 		this.setState({robotList:list});
-		//alert(id.val);
-
 	}
 
 	generateBotList(){
@@ -93,16 +91,17 @@ class Dashboard extends React.Component {
 				if(index===0){
 					return (<Col key={index} sm={2} smOffset={1}>
 									<Image src="/img/bot.png" className="botImg" responsive onClick={()=>this.runBot(val)} />
+									<h3>{val}</h3>
 									<Button bsStyle="danger" onClick={()=> this.deleteBot(val)}>Delete Bot</Button>
-									<p>{val}</p>
+									
 
 								</Col>)
 				}
 				else{
 					return (<Col key={index} sm={2}>
 									<Image src="/img/bot.png" className="botImg" responsive onClick={()=>this.runBot(val)} />
+									<h3>{val}</h3>
 									<Button bsStyle="danger" onClick={()=> this.deleteBot(val)}>Delete Bot</Button>
-									<p>{val}</p>
 								</Col>)
 
 				}
@@ -114,7 +113,6 @@ class Dashboard extends React.Component {
 	}
 
 	generateDashboard(){
-		//if(this.state.user !== '' && typeof this.state.user !== 'undefined'){
 		if(this.props.getLogInStatus()){						
 			return(<div>
 				<h1>Welcome {this.state.user}</h1>
@@ -149,10 +147,20 @@ class Dashboard extends React.Component {
 		else{
 
 			return (<div>
-				
-				<h2>You are no longer logged in!</h2>
-				<Button onClick={this.props.triggerModal} bsStyle="primary">Click here to Log In</Button>
-
+			<Grid>
+				<Jumbotron>
+					<Row>
+						<Col sm={10} smOffset={1}>
+							<h2 className="text-center">You are no longer logged in!</h2>
+						</Col>
+					</Row>
+					<Row>
+						<Col sm={10} smOffset={1} className="text-center">
+							<Button onClick={this.props.triggerModal} bsStyle="primary">Click here to Log In</Button>
+						</Col>
+					</Row>
+				</Jumbotron>
+			</Grid>
 			</div>);
 		}
 

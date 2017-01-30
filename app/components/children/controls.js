@@ -178,45 +178,60 @@ class Search extends React.Component {
 
 			return(
 			
-				<div>
-
-					<div className="jumbotron">
-					<div className="row">
-			  			<div className="col-md-12">
-							<h1>Welcome {this.props.params.userID}, {this.state.ip_Addr}</h1>
-						</div>
-					</div>
-			  			
-			  			<div className="row">
-			  				<div className="col-md-2">
-			  					
-            					<button onMouseDown={(e)=>{this.onKeyDown({key:'a'})} } onMouseUp={(e)=>{this.onKeyUp({key:'a'})} } className="btn btn-primary btn-lg" id="left">{'<<<'}</button>
-            					<button onMouseDown={(e)=>{this.onKeyDown({key:'d'})} } onMouseUp={(e)=>{this.onKeyUp({key:'d'})} } className="btn btn-primary btn-lg" id="right">{'>>>'}</button>
-            				</div>
-            				<div className="col-md-8">
-			  					<img id="camera" className="flip_video" width="500px" height="500px" data-ip="192.168.0.150:8080" src={this.state.img_addr} />
-							</div>
-							<div className="col-md-2">
-			  					
-            					<button onMouseDown={(e)=>{this.onKeyDown({key:'w'})} } onMouseUp={(e)=>{this.onKeyUp({key:'w'})} } className="btn btn-success btn-lg" id="gas">GAS</button>
-            					<button onMouseDown={(e)=>{this.onKeyDown({key:'s'})} } onMouseUp={(e)=>{this.onKeyUp({key:'s'})} } className="btn btn-danger btn-lg" id="brk">BRK</button>
-            				</div>
-
-
-			  			</div>
-			  		</div>
+				<Grid>
+					<Jumbotron>
+						<Row>
+							<Col sm={10} smOffset={1}>
+								<h2>{this.props.params.userID}'s {this.props.params.botID}</h2>
+							</Col>
+						</Row>
+			  			<Row>
+            				<Col sm={10} smOffset={1} className="text-center">
+			  					<Image id="camera" className="flip_video center-block" src={this.state.img_addr} responsive />
+							</Col>
+						</Row>
+						<Row>
+							<Col sm={10} smOffset={1} className="text-center">
+								<h3>GAS: W -- BRAKE/REVERSE: S -- LEFT: A -- RIGHT: D</h3>
+							</Col>
+						</Row>
+						<Row>
+							<Col sm={1} smOffset={2} className="text-center">
+            					<Button onMouseDown={(e)=>{this.onKeyDown({key:'a'})} } onMouseUp={(e)=>{this.onKeyUp({key:'a'})} } className="btn btn-primary btn-lg" id="left">{'<<<'}</Button>
+            				</Col>
+            				<Col sm={1} smOffset={1} className="text-center">
+            					<Button onMouseDown={(e)=>{this.onKeyDown({key:'d'})} } onMouseUp={(e)=>{this.onKeyUp({key:'d'})} } className="btn btn-primary btn-lg" id="right">{'>>>'}</Button>
+            				</Col>
+            				<Col sm={1} smOffset={1} className="text-center">
+            					<Button onMouseDown={(e)=>{this.onKeyDown({key:'w'})} } onMouseUp={(e)=>{this.onKeyUp({key:'w'})} } className="btn btn-success btn-lg" id="gas">GAS</Button>
+            				</Col>	
+            				<Col sm={1} smOffset={1} className="text-center">
+            					<Button onMouseDown={(e)=>{this.onKeyDown({key:'s'})} } onMouseUp={(e)=>{this.onKeyUp({key:'s'})} } className="btn btn-danger btn-lg" id="brk">BRK</Button>
+            				</Col>
+			  			</Row>
+			  		</Jumbotron>
 			  		
 			  	{/*LAST RENDER DIV*/}
-			  	</div>
+			  	</Grid>
 			);
 		}
 
 		else{
 			return (<div>
+			<Grid>
 				<Jumbotron>
-				<h2>You are no longer logged in!</h2>
-				<Button onClick={this.props.triggerModal} bsStyle="primary">Click here to Log In</Button>
+					<Row>
+						<Col sm={10} smOffset={1}>
+							<h2 className="text-center">You are no longer logged in!</h2>
+						</Col>
+					</Row>
+					<Row>
+						<Col sm={10} smOffset={1} className="text-center">
+							<Button onClick={this.props.triggerModal} bsStyle="primary">Click here to Log In</Button>
+						</Col>
+					</Row>
 				</Jumbotron>
+			</Grid>
 			</div>);
 		}
 	}

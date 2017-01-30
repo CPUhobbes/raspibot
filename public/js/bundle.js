@@ -46445,7 +46445,7 @@
 		}, {
 			key: "runBot",
 			value: function runBot(id) {
-				_reactRouter.hashHistory.push("/user/Eric/" + id);
+				_reactRouter.hashHistory.push("/user/" + this.state.user + '/' + id);
 			}
 		}, {
 			key: "deleteBot",
@@ -46458,7 +46458,6 @@
 					list.splice(robotPos, 1);
 				}
 				this.setState({ robotList: list });
-				//alert(id.val);
 			}
 		}, {
 			key: "generateBotList",
@@ -46483,16 +46482,16 @@
 											return _this2.runBot(val);
 										} }),
 									_react2.default.createElement(
+										"h3",
+										null,
+										val
+									),
+									_react2.default.createElement(
 										_reactBootstrap.Button,
 										{ bsStyle: "danger", onClick: function onClick() {
 												return _this2.deleteBot(val);
 											} },
 										"Delete Bot"
-									),
-									_react2.default.createElement(
-										"p",
-										null,
-										val
 									)
 								);
 							} else {
@@ -46503,16 +46502,16 @@
 											return _this2.runBot(val);
 										} }),
 									_react2.default.createElement(
+										"h3",
+										null,
+										val
+									),
+									_react2.default.createElement(
 										_reactBootstrap.Button,
 										{ bsStyle: "danger", onClick: function onClick() {
 												return _this2.deleteBot(val);
 											} },
 										"Delete Bot"
-									),
-									_react2.default.createElement(
-										"p",
-										null,
-										val
 									)
 								);
 							}
@@ -46524,7 +46523,6 @@
 		}, {
 			key: "generateDashboard",
 			value: function generateDashboard() {
-				//if(this.state.user !== '' && typeof this.state.user !== 'undefined'){
 				if (this.props.getLogInStatus()) {
 					return _react2.default.createElement(
 						"div",
@@ -46595,14 +46593,38 @@
 						"div",
 						null,
 						_react2.default.createElement(
-							"h2",
+							_reactBootstrap.Grid,
 							null,
-							"You are no longer logged in!"
-						),
-						_react2.default.createElement(
-							_reactBootstrap.Button,
-							{ onClick: this.props.triggerModal, bsStyle: "primary" },
-							"Click here to Log In"
+							_react2.default.createElement(
+								_reactBootstrap.Jumbotron,
+								null,
+								_react2.default.createElement(
+									_reactBootstrap.Row,
+									null,
+									_react2.default.createElement(
+										_reactBootstrap.Col,
+										{ sm: 10, smOffset: 1 },
+										_react2.default.createElement(
+											"h2",
+											{ className: "text-center" },
+											"You are no longer logged in!"
+										)
+									)
+								),
+								_react2.default.createElement(
+									_reactBootstrap.Row,
+									null,
+									_react2.default.createElement(
+										_reactBootstrap.Col,
+										{ sm: 10, smOffset: 1, className: "text-center" },
+										_react2.default.createElement(
+											_reactBootstrap.Button,
+											{ onClick: this.props.triggerModal, bsStyle: "primary" },
+											"Click here to Log In"
+										)
+									)
+								)
+							)
 						)
 					);
 				}
@@ -46844,44 +46866,69 @@
 				if (this.props.getLogInStatus()) {
 
 					return _react2.default.createElement(
-						"div",
+						_reactBootstrap.Grid,
 						null,
 						_react2.default.createElement(
-							"div",
-							{ className: "jumbotron" },
+							_reactBootstrap.Jumbotron,
+							null,
 							_react2.default.createElement(
-								"div",
-								{ className: "row" },
+								_reactBootstrap.Row,
+								null,
 								_react2.default.createElement(
-									"div",
-									{ className: "col-md-12" },
+									_reactBootstrap.Col,
+									{ sm: 10, smOffset: 1 },
 									_react2.default.createElement(
-										"h1",
+										"h2",
 										null,
-										"Welcome ",
 										this.props.params.userID,
-										", ",
-										this.state.ip_Addr
+										"'s ",
+										this.props.params.botID
 									)
 								)
 							),
 							_react2.default.createElement(
-								"div",
-								{ className: "row" },
+								_reactBootstrap.Row,
+								null,
 								_react2.default.createElement(
-									"div",
-									{ className: "col-md-2" },
+									_reactBootstrap.Col,
+									{ sm: 10, smOffset: 1, className: "text-center" },
+									_react2.default.createElement(_reactBootstrap.Image, { id: "camera", className: "flip_video center-block", src: this.state.img_addr, responsive: true })
+								)
+							),
+							_react2.default.createElement(
+								_reactBootstrap.Row,
+								null,
+								_react2.default.createElement(
+									_reactBootstrap.Col,
+									{ sm: 10, smOffset: 1, className: "text-center" },
 									_react2.default.createElement(
-										"button",
+										"h3",
+										null,
+										"GAS: W -- BRAKE/REVERSE: S -- LEFT: A -- RIGHT: D"
+									)
+								)
+							),
+							_react2.default.createElement(
+								_reactBootstrap.Row,
+								null,
+								_react2.default.createElement(
+									_reactBootstrap.Col,
+									{ sm: 1, smOffset: 2, className: "text-center" },
+									_react2.default.createElement(
+										_reactBootstrap.Button,
 										{ onMouseDown: function onMouseDown(e) {
 												_this5.onKeyDown({ key: 'a' });
 											}, onMouseUp: function onMouseUp(e) {
 												_this5.onKeyUp({ key: 'a' });
 											}, className: "btn btn-primary btn-lg", id: "left" },
 										'<<<'
-									),
+									)
+								),
+								_react2.default.createElement(
+									_reactBootstrap.Col,
+									{ sm: 1, smOffset: 1, className: "text-center" },
 									_react2.default.createElement(
-										"button",
+										_reactBootstrap.Button,
 										{ onMouseDown: function onMouseDown(e) {
 												_this5.onKeyDown({ key: 'd' });
 											}, onMouseUp: function onMouseUp(e) {
@@ -46891,24 +46938,23 @@
 									)
 								),
 								_react2.default.createElement(
-									"div",
-									{ className: "col-md-8" },
-									_react2.default.createElement("img", { id: "camera", className: "flip_video", width: "500px", height: "500px", "data-ip": "192.168.0.150:8080", src: this.state.img_addr })
-								),
-								_react2.default.createElement(
-									"div",
-									{ className: "col-md-2" },
+									_reactBootstrap.Col,
+									{ sm: 1, smOffset: 1, className: "text-center" },
 									_react2.default.createElement(
-										"button",
+										_reactBootstrap.Button,
 										{ onMouseDown: function onMouseDown(e) {
 												_this5.onKeyDown({ key: 'w' });
 											}, onMouseUp: function onMouseUp(e) {
 												_this5.onKeyUp({ key: 'w' });
 											}, className: "btn btn-success btn-lg", id: "gas" },
 										"GAS"
-									),
+									)
+								),
+								_react2.default.createElement(
+									_reactBootstrap.Col,
+									{ sm: 1, smOffset: 1, className: "text-center" },
 									_react2.default.createElement(
-										"button",
+										_reactBootstrap.Button,
 										{ onMouseDown: function onMouseDown(e) {
 												_this5.onKeyDown({ key: 's' });
 											}, onMouseUp: function onMouseUp(e) {
@@ -46925,17 +46971,37 @@
 						"div",
 						null,
 						_react2.default.createElement(
-							_reactBootstrap.Jumbotron,
+							_reactBootstrap.Grid,
 							null,
 							_react2.default.createElement(
-								"h2",
+								_reactBootstrap.Jumbotron,
 								null,
-								"You are no longer logged in!"
-							),
-							_react2.default.createElement(
-								_reactBootstrap.Button,
-								{ onClick: this.props.triggerModal, bsStyle: "primary" },
-								"Click here to Log In"
+								_react2.default.createElement(
+									_reactBootstrap.Row,
+									null,
+									_react2.default.createElement(
+										_reactBootstrap.Col,
+										{ sm: 10, smOffset: 1 },
+										_react2.default.createElement(
+											"h2",
+											{ className: "text-center" },
+											"You are no longer logged in!"
+										)
+									)
+								),
+								_react2.default.createElement(
+									_reactBootstrap.Row,
+									null,
+									_react2.default.createElement(
+										_reactBootstrap.Col,
+										{ sm: 10, smOffset: 1, className: "text-center" },
+										_react2.default.createElement(
+											_reactBootstrap.Button,
+											{ onClick: this.props.triggerModal, bsStyle: "primary" },
+											"Click here to Log In"
+										)
+									)
+								)
 							)
 						)
 					);
