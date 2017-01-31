@@ -322,7 +322,7 @@ class Main extends React.Component {
 				<Navbar id="main-nav" staticTop>
 				    <Navbar.Header>
 				    	<Navbar.Brand>
-				        	<a href="#">Raspi-Bot</a>
+				        	<a href="#" className="siteName">Raspi-Bot</a>
 				      	</Navbar.Brand>
 				    	<Navbar.Toggle />
 				    </Navbar.Header>

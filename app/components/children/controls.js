@@ -219,10 +219,10 @@ class Search extends React.Component {
 		else{
 			return (<div>
 			<Grid>
-				<Jumbotron>
 					<Row>
 						<Col sm={10} smOffset={1}>
 							<h2 className="text-center">You are no longer logged in!</h2>
+							<p><br /></p>
 						</Col>
 					</Row>
 					<Row>
@@ -230,7 +230,7 @@ class Search extends React.Component {
 							<Button onClick={this.props.triggerModal} bsStyle="primary">Click here to Log In</Button>
 						</Col>
 					</Row>
-				</Jumbotron>
+				
 			</Grid>
 			</div>);
 		}

@@ -20,6 +20,7 @@ body{
 
 #main-nav.navbar-default .navbar-brand {
 	color: rgba(252, 252, 252, 1);
+	margin: 10px;
 }
 #main-nav.navbar-default {
 	font-size: 20px;
@@ -30,6 +31,7 @@ body{
 #main-nav.navbar-default .navbar-nav>li>a {
 	color: rgba(255, 255, 255, 1);
 	background-color: rgba(248, 248, 248, 0);
+	margin: 10px 0px;
 }
 #main-nav.navbar-default .navbar-nav>li>a:hover,
 #main-nav.navbar-default .navbar-nav>li>a:focus {
@@ -61,7 +63,7 @@ body{
 	padding-top: 15px;
 	padding-bottom: 15px;
 	line-height: 20px;
-	margin: 0px;
+	margin: 10px 0px;
 	padding-right: 0px;
 	padding-left: 15px;
 }
@@ -71,7 +73,22 @@ body{
 
 .botImg{
 	width: 100px;
-	height: 100px;
+	height: auto;
+}
+.mainBot{
+	width:300px;
+	height: auto;
+}
+
+.smallBot{
+	width:175px;
+	height: auto;
+}
+.piImg{
+	width: 100px;
+	height: auto;
+	float: left;
+	margin-right: 10px;
 }
 
 .Absolute-Center {
@@ -89,7 +106,7 @@ body{
 }
 
 .jumbotron{
-	background-color: rgba(255,255,255,.8);
+	background-color: rgba(255,255,255,.7);
 }
 
 @media only screen and (max-width: 768px) {
@@ -97,4 +114,21 @@ body{
 		padding-left: 0px;
 		padding-bottom: 0px;
 	}
+}
+
+.siteName{
+	font-size: 32px;
+
+}
+.lineBreak{
+	background-color: rgba(51, 51, 51, 1);
+	width: 90%;
+	height: 5px;
+}
+
+.miniLineBreak{
+	background-color: rgba(51, 51, 51, 1);
+	width: 85%;
+	height: 2px;
+	margin-top: 30px;
 }

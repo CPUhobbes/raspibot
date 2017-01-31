@@ -74,11 +74,6 @@ const helpers = {
   		});
 
 	}
-
-
-
-
-
 };
 
 // We export the helpers function

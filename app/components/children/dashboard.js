@@ -116,6 +116,7 @@ class Dashboard extends React.Component {
 		if(this.props.getLogInStatus()){						
 			return(<div>
 				<h1>Welcome {this.state.user}</h1>
+				<p className="lineBreak"><br /></p>	
 				<Grid>
 					<Row>
 						<Col sm={10} smOffset={1}>
@@ -123,9 +124,11 @@ class Dashboard extends React.Component {
 						</Col>
 					</Row>
 					{this.generateBotList()}
-
+					
 					<Row>
+
 						<Col sm={10} smOffset={1}>
+						<p className="miniLineBreak"><br /></p>	
 							<h3>Add A Raspi-Bot</h3>
 						</Col>
 					</Row>
@@ -148,10 +151,10 @@ class Dashboard extends React.Component {
 
 			return (<div>
 			<Grid>
-				<Jumbotron>
 					<Row>
 						<Col sm={10} smOffset={1}>
 							<h2 className="text-center">You are no longer logged in!</h2>
+							<p><br /></p>
 						</Col>
 					</Row>
 					<Row>
@@ -159,7 +162,6 @@ class Dashboard extends React.Component {
 							<Button onClick={this.props.triggerModal} bsStyle="primary">Click here to Log In</Button>
 						</Col>
 					</Row>
-				</Jumbotron>
 			</Grid>
 			</div>);
 		}
