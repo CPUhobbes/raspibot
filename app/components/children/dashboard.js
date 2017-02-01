@@ -71,7 +71,7 @@ class Dashboard extends React.Component {
 	}
 
 	runBot(id){
-		hashHistory.push("/user/"+this.state.user+'/'+id);
+		hashHistory.push("/user/"+this.state.nickname+'/'+id);
 	}
 
 	deleteBot(id){ 

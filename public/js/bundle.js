@@ -46592,7 +46592,7 @@
 		}, {
 			key: "runBot",
 			value: function runBot(id) {
-				_reactRouter.hashHistory.push("/user/" + this.state.user + '/' + id);
+				_reactRouter.hashHistory.push("/user/" + this.state.nickname + '/' + id);
 			}
 		}, {
 			key: "deleteBot",
