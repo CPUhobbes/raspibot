@@ -16,7 +16,8 @@ class Dashboard extends React.Component {
 	this.state = {
 		robotList:[],
 		newBot:"",
-		user:""
+		user:"",
+		nickname:""
 	};
 
 	this.handleChange = this.handleChange.bind(this);
@@ -29,12 +30,16 @@ class Dashboard extends React.Component {
 		//Get ID from url
 		//this.props.params.userID
 		let userName = this.props.getUserData().user;
-		if(typeof userName !== "undefined")
+		if(typeof userName !== "undefined"){
 			this.setState({user:this.props.getUserData().user});
+			let tempName = userName.split("@");
+			this.setState({nickname:tempName[0]});
+		}
 
 		let botList = this.props.getUserData().bots;
-		if(typeof botList !== "undefined")
+		if(typeof botList !== "undefined"){
 			this.setState({robotList:botList});
+		}
 
 	}
 
@@ -91,8 +96,8 @@ class Dashboard extends React.Component {
 				if(index===0){
 					return (<Col key={index} sm={2} smOffset={1}>
 									<Image src="/img/bot.png" className="botImg" responsive onClick={()=>this.runBot(val)} />
-									<h3>{val}</h3>
-									<Button bsStyle="danger" onClick={()=> this.deleteBot(val)}>Delete Bot</Button>
+									<h3 className="text-center">{val}</h3>
+									<div className="text-center"><Button bsStyle="danger" onClick={()=> this.deleteBot(val)}>Delete Bot</Button></div>
 									
 
 								</Col>)
@@ -113,7 +118,7 @@ class Dashboard extends React.Component {
 	generateDashboard(){
 		if(this.props.getLogInStatus()){						
 			return(<div>
-				<h2 className="dashboardHeader">Welcome {this.state.user}</h2>
+				<h2 className="dashboardHeader">Welcome {this.state.nickname}</h2>
 				<p className="lineBreak"><br /></p>	
 				<Grid>
 					<Row>

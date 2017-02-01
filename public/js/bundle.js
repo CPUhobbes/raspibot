@@ -21664,7 +21664,8 @@
 				loggedIn: false,
 				newUser: false,
 				message: "",
-				failedLogin: false
+				failedLogin: false,
+				saveLogin: false
 			};
 
 			//Bind this to functions
@@ -21678,13 +21679,18 @@
 			_this.getValidationState = _this.getValidationState.bind(_this);
 			_this.getUserData = _this.getUserData.bind(_this);
 			_this.getLogInStatus = _this.getLogInStatus.bind(_this);
+			_this.updateSaveSession = _this.updateSaveSession.bind(_this);
 			return _this;
 		}
 
-		//Check for updated states
-
-
 		_createClass(Main, [{
+			key: "componentWillMount",
+			value: function componentWillMount() {}
+			//TODO ADD COOKIES FOR SAVING LOG IN
+
+			//Check for updated states
+
+		}, {
 			key: "componentDidUpdate",
 			value: function componentDidUpdate(prevProps, prevState) {
 
@@ -21707,13 +21713,6 @@
 				} else if (prevState.failedLogin !== this.state.failedLogin && !this.state.failedLogin) {
 					this.setState({ message: "" });
 				}
-			}
-		}, {
-			key: "handleChange",
-			value: function handleChange(event) {
-				var newState = {};
-				newState[event.target.id] = event.target.value;
-				this.setState(newState);
 			}
 		}, {
 			key: "setLoginName",
@@ -21747,11 +21746,15 @@
 								_this2.setState({ message: "Passwords Do Not Match" });
 							} else {
 
-								_UserHelper2.default.createUser(userName, _this2.state.pass).then(function (data) {
+								_UserHelper2.default.createUser(_this2.state.user, _this2.state.pass).then(function (data) {
 									if (!data) {
 										_this2.setState({ failedLogin: true });
 										_this2.setState({ message: "User Exists!" });
 									} else {
+										_this2.setState({ userData: {
+												user: _this2.state.user,
+												bots: []
+											} });
 										//Update states for user
 										_this2.setState({ failedLogin: false });
 										_this2.setState({ loggedIn: true });
@@ -21769,7 +21772,7 @@
 								});
 							}
 						} else {
-							_UserHelper2.default.verifyLogIn(userName, _this2.state.pass).then(function (data) {
+							_UserHelper2.default.verifyLogIn(_this2.state.user, _this2.state.pass).then(function (data) {
 								if (!data) {
 									_this2.setState({ failedLogin: true });
 									_this2.setState({ message: "Incorrect Username or Password" });
@@ -21821,6 +21824,14 @@
 				var newState = {};
 				newState[event.target.id] = event.target.value;
 				this.setState(newState);
+			}
+
+			//TODO ADD COOKIES FOR SAVING LOG IN
+
+		}, {
+			key: "updateSaveSession",
+			value: function updateSaveSession() {
+				this.setState({ saveLogin: !this.state.saveLogin });
 			}
 		}, {
 			key: "getUserData",
@@ -22076,7 +22087,7 @@
 										null,
 										"Email"
 									),
-									_react2.default.createElement(_reactBootstrap.FormControl, { type: "text", id: "user", placeholder: "user@internet.com" })
+									_react2.default.createElement(_reactBootstrap.FormControl, { type: "email", id: "user", placeholder: "user@internet.com" })
 								),
 								this.updateModal()
 							),
@@ -46421,7 +46432,7 @@
 											null,
 											_react2.default.createElement(
 												_reactBootstrap.ControlLabel,
-												null,
+												{ bsStyle: "contact" },
 												"Name"
 											),
 											_react2.default.createElement(_reactBootstrap.FormControl, { type: "name", id: "name", placeholder: "Name" })
@@ -46431,7 +46442,7 @@
 											null,
 											_react2.default.createElement(
 												_reactBootstrap.ControlLabel,
-												null,
+												{ bsStyle: "contact" },
 												"Email"
 											),
 											_react2.default.createElement(_reactBootstrap.FormControl, { type: "email", id: "email", placeholder: "user@internet.com" })
@@ -46441,7 +46452,7 @@
 											null,
 											_react2.default.createElement(
 												_reactBootstrap.ControlLabel,
-												null,
+												{ bsStyle: "contact" },
 												"Message"
 											),
 											_react2.default.createElement(_reactBootstrap.FormControl, { componentClass: "textarea", id: "message", placeholder: "Your Message" })
@@ -46523,7 +46534,8 @@
 			_this.state = {
 				robotList: [],
 				newBot: "",
-				user: ""
+				user: "",
+				nickname: ""
 			};
 
 			_this.handleChange = _this.handleChange.bind(_this);
@@ -46539,10 +46551,16 @@
 				//Get ID from url
 				//this.props.params.userID
 				var userName = this.props.getUserData().user;
-				if (typeof userName !== "undefined") this.setState({ user: this.props.getUserData().user });
+				if (typeof userName !== "undefined") {
+					this.setState({ user: this.props.getUserData().user });
+					var tempName = userName.split("@");
+					this.setState({ nickname: tempName[0] });
+				}
 
 				var botList = this.props.getUserData().bots;
-				if (typeof botList !== "undefined") this.setState({ robotList: botList });
+				if (typeof botList !== "undefined") {
+					this.setState({ robotList: botList });
+				}
 			}
 		}, {
 			key: "componentDidUpdate",
@@ -46612,15 +46630,19 @@
 										} }),
 									_react2.default.createElement(
 										"h3",
-										null,
+										{ className: "text-center" },
 										val
 									),
 									_react2.default.createElement(
-										_reactBootstrap.Button,
-										{ bsStyle: "danger", onClick: function onClick() {
-												return _this2.deleteBot(val);
-											} },
-										"Delete Bot"
+										"div",
+										{ className: "text-center" },
+										_react2.default.createElement(
+											_reactBootstrap.Button,
+											{ bsStyle: "danger", onClick: function onClick() {
+													return _this2.deleteBot(val);
+												} },
+											"Delete Bot"
+										)
 									)
 								);
 							} else {
@@ -46660,7 +46682,7 @@
 							"h2",
 							{ className: "dashboardHeader" },
 							"Welcome ",
-							this.state.user
+							this.state.nickname
 						),
 						_react2.default.createElement(
 							"p",

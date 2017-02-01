@@ -80,15 +80,15 @@ class Search extends React.Component {
 
 								<Form onSubmit={this.handleSubmit} onChange={this.handleChange}>
 			                        <FormGroup>
-			        					<ControlLabel>Name</ControlLabel>
+			        					<ControlLabel bsStyle="contact">Name</ControlLabel>
 			        	 				<FormControl type="name" id="name" placeholder="Name" />
 			        	 			</FormGroup>
 			                        <FormGroup>
-			        					<ControlLabel>Email</ControlLabel>
+			        					<ControlLabel bsStyle="contact">Email</ControlLabel>
 			        	 				<FormControl type="email" id="email" placeholder="user@internet.com" />
 			        	 			</FormGroup>
 			                        <FormGroup>
-      									<ControlLabel>Message</ControlLabel>
+      									<ControlLabel bsStyle="contact">Message</ControlLabel>
       									<FormControl componentClass="textarea" id="message" placeholder="Your Message" />
     								</FormGroup>
 			                        

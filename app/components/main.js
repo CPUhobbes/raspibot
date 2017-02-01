@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import {hashHistory} from "react-router";
 
 //Bootstrap Components
-import {Nav, Navbar, NavItem, Modal,Button, Form, FormControl, ControlLabel, FormGroup, Col, Row, Grid, HelpBlock, Image} from "react-bootstrap";
+import {Nav, Navbar, NavItem, Modal,Button, Form, FormControl, ControlLabel, FormGroup, Col, Row, Grid, HelpBlock, Image, Checkbox} from "react-bootstrap";
 import {IndexLinkContainer} from "react-router-bootstrap";
 
 // Import sub-components
@@ -42,7 +42,8 @@ class Main extends React.Component {
 			loggedIn:false,
 			newUser:false,
 			message:"",
-			failedLogin:false
+			failedLogin:false,
+			saveLogin: false
 		};
 
 		//Bind this to functions
@@ -56,6 +57,12 @@ class Main extends React.Component {
 		this.getValidationState = this.getValidationState.bind(this);
 		this.getUserData = this.getUserData.bind(this);
 		this.getLogInStatus = this.getLogInStatus.bind(this);
+		this.updateSaveSession = this.updateSaveSession.bind(this);
+	}
+
+	componentWillMount(){
+		//TODO ADD COOKIES FOR SAVING LOG IN
+
 	}
 
 	//Check for updated states
@@ -89,12 +96,6 @@ class Main extends React.Component {
 
 	}
 
-	handleChange(event) {
-    var newState = {};
-    newState[event.target.id] = event.target.value;
-    this.setState(newState);
-  }
-
 	setLoginName(data) {
     	this.setState({
       		loginText:data.name
@@ -125,12 +126,16 @@ class Main extends React.Component {
   				}
   				else{
 
-		  			UserHelper.createUser(userName, this.state.pass).then((data)=>{
+		  			UserHelper.createUser(this.state.user, this.state.pass).then((data)=>{
 			  			if(!data){
 			  				this.setState({failedLogin:true})
 			  				this.setState({message:"User Exists!"});
 			  			}
 			  			else{
+			  				this.setState({userData:{
+			  								user:this.state.user,
+			  								bots:[]
+			  							}});
 			  				//Update states for user
 			  				this.setState({failedLogin:false})
 			  				this.setState({loggedIn:true});
@@ -152,7 +157,7 @@ class Main extends React.Component {
 		  	}
 
 		  	else{
-		  		UserHelper.verifyLogIn(userName, this.state.pass).then((data)=>{
+		  		UserHelper.verifyLogIn(this.state.user, this.state.pass).then((data)=>{
 		  			if(!data){
 		  				this.setState({failedLogin:true})
 		  				this.setState({message:"Incorrect Username or Password"});
@@ -170,7 +175,7 @@ class Main extends React.Component {
 		  				this.triggerModal();
 		  				let modalState = {showModal:false, enable:false};
 		  				this.setState({modal: modalState});
-
+		  				
 		  				//Go to Dashboard
 		  				hashHistory.push("/user/"+userName[0]+"/");
 
@@ -200,10 +205,15 @@ class Main extends React.Component {
 
   	updateForm(event){
 
-
-  		var newState = {};
+  		let newState = {};
     	newState[event.target.id] = event.target.value;
     	this.setState(newState);
+
+  	}
+
+  	//TODO ADD COOKIES FOR SAVING LOG IN
+  	updateSaveSession(){
+  		this.setState({saveLogin: !this.state.saveLogin});
   	}
 
   	getUserData(){
@@ -281,6 +291,11 @@ class Main extends React.Component {
 			        	 <ControlLabel>Re-Enter Password</ControlLabel>
 			        	 <FormControl type="password" id="verifyPass" placeholder="Re-Enter Password" />
 			       	</FormGroup>
+			       	{/*<FormGroup>
+      					<Checkbox id="save" onChange={this.updateSaveSession}>
+        				Save Login
+      					</Checkbox>
+      				</FormGroup>*/}
 					<Row>
 				    	<Col sm={12} className="text-center">
 				    		<Button bsStyle="success" bsSize="large" type="submit">Go to Raspi-Bot!</Button>
@@ -296,6 +311,11 @@ class Main extends React.Component {
 			        	 <ControlLabel>Password</ControlLabel>
 			        	 <FormControl type="password" id="pass" placeholder="Password"/>
 			        </FormGroup>
+			        {/*<FormGroup>
+      					<Checkbox id="save" onChange={this.updateSaveSession}>
+        				Save Login
+      					</Checkbox>
+      				</FormGroup>*/}
 					<Row>
 						<Col sm={4} smOffset={2} className="text-center">
 				    		<Button bsStyle="primary" bsSize="large" onClick={this.newUser}>New User</Button>
@@ -349,7 +369,7 @@ class Main extends React.Component {
 			        <Form onSubmit={this.loginHelper} onChange={this.updateForm}>
 			        	<FormGroup>
 			        		<ControlLabel >Email</ControlLabel>
-			        	 	<FormControl type="text" id="user" placeholder="user@internet.com" />
+			        	 	<FormControl type="email" id="user" placeholder="user@internet.com" />
 			        	 </FormGroup>
 			        	 {this.updateModal()}
 			        </Form>
