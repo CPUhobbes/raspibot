@@ -31,12 +31,12 @@ class Saved extends React.Component {
 			<div>
 				<Grid>
 					<Row>
-						<Col sm={8} smOffset={2}>
+						<Col sm={10} smOffset={1}>
 							<Jumbotron>
-								<h1 className="text-center">Raspi-Bot</h1>
+								<Image src="/img/text/home_logo.png" className="homeLogo" responsive />
 								<Image src="/img/aboutBot.png" className="mainBot center-block" responsive />
 								
-								<h3 className="text-center">A web enabled video drone</h3>								
+								<h2 className="text-center">A web enabled video drone</h2>								
 							</Jumbotron>
 
 						</Col>

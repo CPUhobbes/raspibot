@@ -138,7 +138,7 @@ class Dashboard extends React.Component {
 				        	<FormControl type="text" id="newBot" placeholder="Serial #" ref="newBot" />
 						</Col>
 						<Col sm={1}>
-							<Button bsStyle="primary" type="submit">Add Raspi-Bot!</Button>
+							<Button bsStyle="success" type="submit">Add Raspi-Bot!</Button>
 						</Col>
 
 						</Form>

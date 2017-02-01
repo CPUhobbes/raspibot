@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import {hashHistory} from "react-router";
 
 //Bootstrap Components
-import {Nav, Navbar, NavItem, Modal,Button, Form, FormControl, ControlLabel, FormGroup, Col, Row, Grid, HelpBlock} from "react-bootstrap";
+import {Nav, Navbar, NavItem, Modal,Button, Form, FormControl, ControlLabel, FormGroup, Col, Row, Grid, HelpBlock, Image} from "react-bootstrap";
 import {IndexLinkContainer} from "react-router-bootstrap";
 
 // Import sub-components
@@ -322,7 +322,7 @@ class Main extends React.Component {
 				<Navbar id="main-nav" staticTop>
 				    <Navbar.Header>
 				    	<Navbar.Brand>
-				        	<a href="#" className="siteName">Raspi-Bot</a>
+				        	<a href="#" className="sitelogo"><Image src="/img/logo.png" className="botHeader" /></a>
 				      	</Navbar.Brand>
 				    	<Navbar.Toggle />
 				    </Navbar.Header>
