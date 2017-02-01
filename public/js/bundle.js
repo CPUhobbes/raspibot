@@ -21864,7 +21864,7 @@
 								{ to: this.state.homeLink, activeHref: "active" },
 								_react2.default.createElement(
 									_reactBootstrap.NavItem,
-									{ eventKey: 1 },
+									{ eventKey: 1, className: "navText" },
 									"Home"
 								)
 							),
@@ -21873,7 +21873,7 @@
 								{ to: "/about", activeHref: "active" },
 								_react2.default.createElement(
 									_reactBootstrap.NavItem,
-									{ eventKey: 2 },
+									{ eventKey: 2, className: "navText" },
 									"About"
 								)
 							),
@@ -21882,7 +21882,7 @@
 								{ to: "/contact", activeHref: "active" },
 								_react2.default.createElement(
 									_reactBootstrap.NavItem,
-									{ eventKey: 3 },
+									{ eventKey: 3, className: "navText" },
 									"Contact"
 								)
 							)
@@ -21900,7 +21900,7 @@
 								{ to: this.state.homeLink, activeHref: "active" },
 								_react2.default.createElement(
 									_reactBootstrap.NavItem,
-									{ eventKey: 1 },
+									{ eventKey: 1, className: "navText" },
 									"Home"
 								)
 							),
@@ -21909,7 +21909,7 @@
 								{ to: "/about", activeHref: "active" },
 								_react2.default.createElement(
 									_reactBootstrap.NavItem,
-									{ eventKey: 2 },
+									{ eventKey: 2, className: "navText" },
 									"About"
 								)
 							),
@@ -21918,13 +21918,13 @@
 								{ to: "/contact", activeHref: "active" },
 								_react2.default.createElement(
 									_reactBootstrap.NavItem,
-									{ eventKey: 3 },
+									{ eventKey: 3, className: "navText" },
 									"Contact"
 								)
 							),
 							_react2.default.createElement(
 								_reactBootstrap.NavItem,
-								{ eventKey: 4, onClick: this.triggerModal },
+								{ eventKey: 4, onClick: this.triggerModal, className: "navText" },
 								this.state.loginText
 							)
 						)
@@ -21966,7 +21966,7 @@
 								{ sm: 12, className: "text-center" },
 								_react2.default.createElement(
 									_reactBootstrap.Button,
-									{ bsStyle: "primary", type: "submit" },
+									{ bsStyle: "success", bsSize: "large", type: "submit" },
 									"Go to Raspi-Bot!"
 								)
 							)
@@ -21994,7 +21994,7 @@
 								{ sm: 4, smOffset: 2, className: "text-center" },
 								_react2.default.createElement(
 									_reactBootstrap.Button,
-									{ bsStyle: "success", onClick: this.newUser },
+									{ bsStyle: "primary", bsSize: "large", onClick: this.newUser },
 									"New User"
 								)
 							),
@@ -22003,7 +22003,7 @@
 								{ sm: 4, className: "text-center" },
 								_react2.default.createElement(
 									_reactBootstrap.Button,
-									{ bsStyle: "primary", type: "submit" },
+									{ bsStyle: "success", bsSize: "large", type: "submit" },
 									"Go to Raspi-Bot!"
 								)
 							)
@@ -46657,8 +46657,8 @@
 						"div",
 						null,
 						_react2.default.createElement(
-							"h1",
-							null,
+							"h2",
+							{ className: "dashboardHeader" },
 							"Welcome ",
 							this.state.user
 						),
@@ -46678,7 +46678,7 @@
 									{ sm: 10, smOffset: 1 },
 									_react2.default.createElement(
 										"h2",
-										null,
+										{ className: "dashText" },
 										"Your Raspi-Bots"
 									)
 								)
@@ -46697,7 +46697,7 @@
 									),
 									_react2.default.createElement(
 										"h3",
-										null,
+										{ className: "addDashText" },
 										"Add A Raspi-Bot"
 									)
 								)
@@ -57351,7 +57351,7 @@
 									{ sm: 10, smOffset: 1 },
 									_react2.default.createElement(
 										"h2",
-										null,
+										{ className: "dashboardHeader" },
 										this.props.params.userID,
 										"'s ",
 										this.props.params.botID
@@ -57452,27 +57452,39 @@
 									_reactBootstrap.Col,
 									{ sm: 10, smOffset: 1 },
 									_react2.default.createElement(
-										"h2",
-										{ className: "text-center" },
-										"You are no longer logged in!"
-									),
-									_react2.default.createElement(
-										"p",
+										_reactBootstrap.Jumbotron,
 										null,
-										_react2.default.createElement("br", null)
-									)
-								)
-							),
-							_react2.default.createElement(
-								_reactBootstrap.Row,
-								null,
-								_react2.default.createElement(
-									_reactBootstrap.Col,
-									{ sm: 10, smOffset: 1, className: "text-center" },
-									_react2.default.createElement(
-										_reactBootstrap.Button,
-										{ onClick: this.props.triggerModal, bsStyle: "primary" },
-										"Click here to Log In"
+										_react2.default.createElement(
+											_reactBootstrap.Row,
+											null,
+											_react2.default.createElement(
+												_reactBootstrap.Col,
+												{ sm: 10, smOffset: 1 },
+												_react2.default.createElement(
+													"h2",
+													{ className: "text-center" },
+													"You are no longer logged in!"
+												),
+												_react2.default.createElement(
+													"p",
+													null,
+													_react2.default.createElement("br", null)
+												)
+											)
+										),
+										_react2.default.createElement(
+											_reactBootstrap.Row,
+											null,
+											_react2.default.createElement(
+												_reactBootstrap.Col,
+												{ sm: 10, smOffset: 1, className: "text-center" },
+												_react2.default.createElement(
+													_reactBootstrap.Button,
+													{ onClick: this.props.triggerModal, bsStyle: "primary", bsSize: "large" },
+													"Click here to Log In"
+												)
+											)
+										)
 									)
 								)
 							)

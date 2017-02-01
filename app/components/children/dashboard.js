@@ -108,19 +108,17 @@ class Dashboard extends React.Component {
 			}, this)}</Row>);
 		}
 		return data;
-						
-
 	}
 
 	generateDashboard(){
 		if(this.props.getLogInStatus()){						
 			return(<div>
-				<h1>Welcome {this.state.user}</h1>
+				<h2 className="dashboardHeader">Welcome {this.state.user}</h2>
 				<p className="lineBreak"><br /></p>	
 				<Grid>
 					<Row>
 						<Col sm={10} smOffset={1}>
-							<h2>Your Raspi-Bots</h2>
+							<h2 className="dashText">Your Raspi-Bots</h2>
 						</Col>
 					</Row>
 					{this.generateBotList()}
@@ -129,7 +127,7 @@ class Dashboard extends React.Component {
 
 						<Col sm={10} smOffset={1}>
 						<p className="miniLineBreak"><br /></p>	
-							<h3>Add A Raspi-Bot</h3>
+							<h3 className="addDashText">Add A Raspi-Bot</h3>
 						</Col>
 					</Row>
 					<Row>

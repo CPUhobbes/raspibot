@@ -182,7 +182,7 @@ class Search extends React.Component {
 					<Jumbotron>
 						<Row>
 							<Col sm={10} smOffset={1}>
-								<h2>{this.props.params.userID}'s {this.props.params.botID}</h2>
+								<h2 className="dashboardHeader">{this.props.params.userID}'s {this.props.params.botID}</h2>
 							</Col>
 						</Row>
 			  			<Row>
@@ -218,20 +218,27 @@ class Search extends React.Component {
 
 		else{
 			return (<div>
-			<Grid>
+				<Grid>
 					<Row>
 						<Col sm={10} smOffset={1}>
-							<h2 className="text-center">You are no longer logged in!</h2>
-							<p><br /></p>
+							<Jumbotron>
+								<Row>
+									<Col sm={10} smOffset={1}>
+										<h2 className="text-center">You are no longer logged in!</h2>
+										<p><br /></p>
+									</Col>
+								</Row>
+								<Row>
+									<Col sm={10} smOffset={1} className="text-center">
+										<Button onClick={this.props.triggerModal} bsStyle="primary" bsSize="large">Click here to Log In</Button>
+									</Col>
+								</Row>
+							</Jumbotron>
 						</Col>
+						
 					</Row>
-					<Row>
-						<Col sm={10} smOffset={1} className="text-center">
-							<Button onClick={this.props.triggerModal} bsStyle="primary">Click here to Log In</Button>
-						</Col>
-					</Row>
-				
-			</Grid>
+				</Grid>
+			
 			</div>);
 		}
 	}

@@ -237,13 +237,13 @@ class Main extends React.Component {
 				</Navbar.Text>
 				<Nav pullRight>
 			      	<IndexLinkContainer to={this.state.homeLink} activeHref="active">
-			        	<NavItem eventKey={1}>Home</NavItem>
+			        	<NavItem eventKey={1} className="navText">Home</NavItem>
 			        </IndexLinkContainer>
 			        <IndexLinkContainer to="/about" activeHref="active">
-			        	<NavItem eventKey={2}>About</NavItem>
+			        	<NavItem eventKey={2} className="navText">About</NavItem>
 			        </IndexLinkContainer>
 			        <IndexLinkContainer to="/contact" activeHref="active">
-			        	<NavItem eventKey={3}>Contact</NavItem>
+			        	<NavItem eventKey={3} className="navText">Contact</NavItem>
 			        </IndexLinkContainer>
 			    </Nav>
 			    </div>
@@ -254,15 +254,15 @@ class Main extends React.Component {
   				<div>
 				<Nav pullRight>
 			      	<IndexLinkContainer to={this.state.homeLink} activeHref="active">
-			        	<NavItem eventKey={1}>Home</NavItem>
+			        	<NavItem eventKey={1} className="navText">Home</NavItem>
 			        </IndexLinkContainer>
 			        <IndexLinkContainer to="/about" activeHref="active">
-			        	<NavItem eventKey={2}>About</NavItem>
+			        	<NavItem eventKey={2} className="navText">About</NavItem>
 			        </IndexLinkContainer>
 			        <IndexLinkContainer to="/contact" activeHref="active">
-			        	<NavItem eventKey={3}>Contact</NavItem>
+			        	<NavItem eventKey={3} className="navText">Contact</NavItem>
 			        </IndexLinkContainer>
-				    <NavItem eventKey={4} onClick={this.triggerModal}>{this.state.loginText}</NavItem>
+				    <NavItem eventKey={4} onClick={this.triggerModal} className="navText">{this.state.loginText}</NavItem>
 			    </Nav>
 			    </div>
   			);
@@ -283,7 +283,7 @@ class Main extends React.Component {
 			       	</FormGroup>
 					<Row>
 				    	<Col sm={12} className="text-center">
-				    		<Button bsStyle="primary" type="submit">Go to Raspi-Bot!</Button>
+				    		<Button bsStyle="success" bsSize="large" type="submit">Go to Raspi-Bot!</Button>
 				    	</Col>
 				    </Row>
 				</div>
@@ -298,10 +298,10 @@ class Main extends React.Component {
 			        </FormGroup>
 					<Row>
 						<Col sm={4} smOffset={2} className="text-center">
-				    		<Button bsStyle="success" onClick={this.newUser}>New User</Button>
+				    		<Button bsStyle="primary" bsSize="large" onClick={this.newUser}>New User</Button>
 				    	</Col>
 				    	<Col sm={4} className="text-center">
-				    		<Button bsStyle="primary" type="submit">Go to Raspi-Bot!</Button>
+				    		<Button bsStyle="success" bsSize="large" type="submit">Go to Raspi-Bot!</Button>
 				    	</Col>
 				    </Row>
 				</div>
@@ -340,7 +340,7 @@ class Main extends React.Component {
 			    })}
 		    
 			    {/* -- Modal -- */}
-			    <Modal show={this.state.modal.showModal} onHide={this.triggerModal}>
+			    <Modal show={this.state.modal.showModal} onHide={this.triggerModal} >
 			      <Modal.Header closeButton>
 			        <Modal.Title>Log In to Raspi-Bot</Modal.Title>
 			      </Modal.Header>
@@ -348,7 +348,7 @@ class Main extends React.Component {
 			      <Modal.Body>
 			        <Form onSubmit={this.loginHelper} onChange={this.updateForm}>
 			        	<FormGroup>
-			        		<ControlLabel>Email</ControlLabel>
+			        		<ControlLabel >Email</ControlLabel>
 			        	 	<FormControl type="text" id="user" placeholder="user@internet.com" />
 			        	 </FormGroup>
 			        	 {this.updateModal()}
